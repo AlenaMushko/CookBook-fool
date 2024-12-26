@@ -1,8 +1,10 @@
+import { Logger, ValidationPipe } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { ValidationPipe } from "@nestjs/common";
 
 import { SwaggerHelper } from './common/helpers/swagger.helper';
+import { AppConfig, Config } from './config/config.type';
 import { AppModule } from './modules/app.module';
 
 async function bootstrap() {
@@ -31,12 +33,21 @@ async function bootstrap() {
     },
   });
 
-  app.useGlobalPipes(new ValidationPipe({
-    transform: true,
-    whitelist: true,
-    forbidNonWhitelisted: true,
-    }
-  ));
-  await app.listen(3000);
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      whitelist: true,
+      forbidNonWhitelisted: true,
+    }),
+  );
+
+  const configService = app.get(ConfigService<Config>);
+  const appConfig = configService.get<AppConfig>('app');
+
+  await app.listen(appConfig.port, () => {
+    const url = `http://${appConfig.host}:${appConfig.port}`;
+    Logger.log(`Server is running on ${url}`);
+    Logger.log(`Swagger is running on ${url}/docs`);
+  });
 }
 bootstrap();
