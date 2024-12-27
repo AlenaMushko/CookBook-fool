@@ -20,5 +20,12 @@ export type PostgresConfig = {
 export type RedisConfig = {
   host: string;
   port: number;
-  process: string;
+  password: string;
+};
+
+export type JWTConfig = {
+  accessTokenSecret: string;
+  accessTokenExpiration: number;
+  refreshTokenSecret: string;
+  refreshTokenExpiration: number;
 };
