@@ -2,37 +2,38 @@
   "root": true,
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "ecmaVersion": 2020,
+  "ecmaVersion": 2020,
     "sourceType": "module",
     "ecmaFeatures": {
-      "jsx": true
-    },
-    "project": "./tsconfig.json"
+    "jsx": true
   },
+  "project": "./tsconfig.eslint.json"
+},
   "env": {
-    "browser": true,
+  "browser": true,
     "es2020": true,
     "node": true,
     "jest": true
-  },
+},
   "plugins": [
-    "@typescript-eslint",
-    "react",
-    "react-hooks",
-    "prettier",
-    "simple-import-sort",
-    "import"
-  ],
+  "@typescript-eslint",
+  "react",
+  "react-hooks",
+  "prettier",
+  "simple-import-sort",
+  "import"
+],
   "extends": [
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "plugin:react-hooks/recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:prettier/recommended",
-    "prettier"
-  ],
+  "eslint:recommended",
+  "plugin:react/recommended",
+  "plugin:react-hooks/recommended",
+  "plugin:@typescript-eslint/recommended",
+  "plugin:prettier/recommended",
+  "plugin:import/typescript",
+  "prettier"
+],
   "rules": {
-    "prettier/prettier": "error",
+  "prettier/prettier": "error",
     "react/react-in-jsx-scope": "off",
     "react/prop-types": "off",
     "react-hooks/rules-of-hooks": "error",
@@ -46,20 +47,20 @@
     "import/no-duplicates": "error",
     "no-console": "warn",
     "sort-imports": [
-      "error",
-      {
-        "ignoreCase": true,
-        "ignoreDeclarationSort": true,
-        "ignoreMemberSort": false,
-        "memberSyntaxSortOrder": ["none", "all", "multiple", "single"],
-        "allowSeparatedGroups": false
-      }
-    ]
-  },
-  "settings": {
-    "react": {
-      "version": "detect"
+    "error",
+    {
+      "ignoreCase": true,
+      "ignoreDeclarationSort": true,
+      "ignoreMemberSort": false,
+      "memberSyntaxSortOrder": ["none", "all", "multiple", "single"],
+      "allowSeparatedGroups": false
     }
-  },
+  ]
+},
+  "settings": {
+  "react": {
+    "version": "detect"
+  }
+},
   "ignorePatterns": ["node_modules/", "dist/", "build/", ".eslintrc.js"]
 }
