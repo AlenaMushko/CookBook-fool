@@ -1,16 +1,14 @@
-import { Button, Container, Typography } from "@mui/material";
+import Header from "@components/Header/Header";
+import { router } from "@routing/router";
 import React from "react";
+import { RouterProvider } from "react-router-dom";
 
 const App: React.FC = () => {
   return (
-    <Container>
-      <Typography variant='h4' gutterBottom>
-        Вітаємо в Material-UI!
-      </Typography>
-      <Button variant='contained' color='primary'>
-        Натисніть мене знову!
-      </Button>
-    </Container>
+    <>
+      <Header />
+      <RouterProvider router={router} />
+    </>
   );
 };
 
