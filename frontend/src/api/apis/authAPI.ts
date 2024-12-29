@@ -5,7 +5,7 @@ import {
   IValidateTokenRes,
 } from "@api/types/auth.types";
 import { createApi } from "@reduxjs/toolkit/query/react";
-import { useAuthStore } from "@stores/authStore";
+import { useAppStore } from "@stores/zustandStore";
 
 import { baseQueryWithReauth } from "./baseQueryWithReauth";
 
@@ -22,7 +22,7 @@ export const authAPI = createApi({
       async onQueryStarted(_, { queryFulfilled }) {
         const { data } = await queryFulfilled;
         const { accessToken, refreshToken } = data.data;
-        useAuthStore.getState().setTokens(accessToken, refreshToken);
+        useAppStore.getState().setTokens(accessToken, refreshToken);
       },
     }),
     validateToken: builder.query<IValidateTokenRes, void>({

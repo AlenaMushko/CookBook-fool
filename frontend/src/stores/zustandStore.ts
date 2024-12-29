@@ -2,18 +2,20 @@ import { LOCAL_STORAGE } from "@constants/localStorage";
 import { LocalStorageUtils } from "@utils/LocalStorage";
 import { create } from "zustand";
 
-interface AuthState {
+interface AppState {
   accessToken: string | null;
   refreshToken: string | null;
   userName: string | null;
   isAuthenticated: boolean;
-
   setTokens: (accessToken: string, refreshToken: string) => void;
   setUserName: (userName: string) => void;
   clearAuth: () => void;
+
+  language: "en" | "uk";
+  setLanguage: (language: "en" | "uk") => void;
 }
 
-export const useAuthStore = create<AuthState>((set) => ({
+export const useAppStore = create<AppState>((set) => ({
   accessToken: LocalStorageUtils.getItem(LOCAL_STORAGE.ACCESS_TOKEN),
   refreshToken: LocalStorageUtils.getItem(LOCAL_STORAGE.REFRESH_TOKEN),
   userName: LocalStorageUtils.getItem(LOCAL_STORAGE.USER_NAME),
@@ -45,4 +47,7 @@ export const useAuthStore = create<AuthState>((set) => ({
       isAuthenticated: false,
     });
   },
+
+  language: "en",
+  setLanguage: (language) => set({ language }),
 }));

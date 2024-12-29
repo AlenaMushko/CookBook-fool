@@ -2,7 +2,14 @@ import DashboardLayout from "./DashboardLayout";
 import DishesPage from "./DishesPage";
 import DishPage from "./DishPage";
 import HomePage from "./HomePage";
-import SignIn from "./SignIn";
-import SignUp from "./SignUp";
+import SignInPage from "./SignInPage";
+import SignUpPage from "./SignUpPage";
 
-export { DashboardLayout, DishesPage, DishPage, HomePage, SignIn, SignUp };
+export {
+  DashboardLayout,
+  DishesPage,
+  DishPage,
+  HomePage,
+  SignInPage,
+  SignUpPage,
+};

@@ -30,7 +30,8 @@
       "@utils/*": ["src/utils/*"],
       "@stores/*": ["src/stores/*"],
       "@apis/*": ["src/api/apis/*"],
-      "@apiTypes/*": ["src/api/types/*"]
+      "@apiTypes/*": ["src/api/types/*"],
+      "@messages/*": ["src/messages/*"],
     }
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"],

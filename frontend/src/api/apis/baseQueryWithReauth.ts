@@ -7,7 +7,7 @@ import type {
   FetchBaseQueryError,
 } from "@reduxjs/toolkit/query";
 import { fetchBaseQuery } from "@reduxjs/toolkit/query";
-import { useAuthStore } from "@stores/authStore";
+import { useAppStore } from "@stores/zustandStore";
 import { Mutex } from "async-mutex";
 
 const mutex = new Mutex();
@@ -15,7 +15,7 @@ const mutex = new Mutex();
 export const baseQuery = fetchBaseQuery({
   baseUrl: CONFIG.API_URL,
   prepareHeaders: (headers) => {
-    const { accessToken } = useAuthStore.getState();
+    const { accessToken } = useAppStore.getState();
     if (accessToken) {
       headers.set("Authorization", `Bearer ${accessToken}`);
     }
@@ -36,7 +36,7 @@ export const baseQueryWithReauth: BaseQueryFn<
     if (!mutex.isLocked()) {
       const release = await mutex.acquire();
       try {
-        const { refreshToken } = useAuthStore.getState();
+        const { refreshToken } = useAppStore.getState();
 
         if (refreshToken) {
           const refreshResult = await baseQuery(
@@ -53,14 +53,14 @@ export const baseQueryWithReauth: BaseQueryFn<
             const { accessToken, refreshToken } = (
               refreshResult.data as SuccessRefreshTokenRes
             ).data;
-            useAuthStore.getState().setTokens(accessToken, refreshToken);
+            useAppStore.getState().setTokens(accessToken, refreshToken);
 
             result = await baseQuery(args, api, extraOptions);
           } else {
-            useAuthStore.getState().clearAuth();
+            useAppStore.getState().clearAuth();
           }
         } else {
-          useAuthStore.getState().clearAuth();
+          useAppStore.getState().clearAuth();
         }
       } finally {
         release();
