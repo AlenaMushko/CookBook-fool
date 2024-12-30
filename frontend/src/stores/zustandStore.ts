@@ -1,24 +1,37 @@
 import { LOCAL_STORAGE } from "@constants/localStorage";
+import { AlertColor } from "@mui/material";
 import { LocalStorageUtils } from "@utils/LocalStorage";
 import { create } from "zustand";
+
+interface ToastState {
+  open: boolean;
+  message: string;
+  type: AlertColor;
+}
 
 interface AppState {
   accessToken: string | null;
   refreshToken: string | null;
-  userName: string | null;
+  userId: string | null;
   isAuthenticated: boolean;
   setTokens: (accessToken: string, refreshToken: string) => void;
-  setUserName: (userName: string) => void;
+  setUserId: (userId: string) => void;
   clearAuth: () => void;
 
   language: "en" | "uk";
   setLanguage: (language: "en" | "uk") => void;
+
+  toast: ToastState;
+  setToast: (toast: ToastState) => void;
+
+  isLoading: boolean;
+  setLoading: (isLoading: boolean) => void;
 }
 
 export const useAppStore = create<AppState>((set) => ({
   accessToken: LocalStorageUtils.getItem(LOCAL_STORAGE.ACCESS_TOKEN),
   refreshToken: LocalStorageUtils.getItem(LOCAL_STORAGE.REFRESH_TOKEN),
-  userName: LocalStorageUtils.getItem(LOCAL_STORAGE.USER_NAME),
+  userId: LocalStorageUtils.getItem(LOCAL_STORAGE.USER_ID),
   isAuthenticated: !!LocalStorageUtils.getItem(LOCAL_STORAGE.ACCESS_TOKEN),
 
   setTokens: (accessToken, refreshToken) => {
@@ -31,23 +44,33 @@ export const useAppStore = create<AppState>((set) => ({
     });
   },
 
-  setUserName: (userName: string) => {
-    LocalStorageUtils.setItem(LOCAL_STORAGE.USER_NAME, userName);
-    set({ userName });
+  setUserId: (userId: string) => {
+    LocalStorageUtils.setItem(LOCAL_STORAGE.USER_ID, userId);
+    set({ userId });
   },
 
   clearAuth: () => {
     LocalStorageUtils.removeItem(LOCAL_STORAGE.ACCESS_TOKEN);
     LocalStorageUtils.removeItem(LOCAL_STORAGE.REFRESH_TOKEN);
-    LocalStorageUtils.removeItem(LOCAL_STORAGE.USER_NAME);
+    LocalStorageUtils.removeItem(LOCAL_STORAGE.USER_ID);
     set({
       accessToken: null,
       refreshToken: null,
-      userName: null,
+      userId: null,
       isAuthenticated: false,
     });
   },
 
   language: "en",
   setLanguage: (language) => set({ language }),
+
+  toast: {
+    open: false,
+    message: "",
+    type: "info",
+  },
+  setToast: (toast) => set({ toast }),
+
+  isLoading: false,
+  setLoading: (isLoading) => set({ isLoading }),
 }));

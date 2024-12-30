@@ -7,7 +7,11 @@ import {
   Matches,
 } from 'class-validator';
 
-import { EMAIL_REGEX, PASSWORD_REGEX } from '../../constants/user.constants';
+import {
+  EMAIL_REGEX,
+  PASSWORD_REGEX,
+  PHONE_REGEX,
+} from '../../constants/user.constants';
 
 export class CreateUserDto {
   @IsString()
@@ -47,5 +51,8 @@ export class CreateUserDto {
   @IsOptional()
   @Type(() => String)
   @Type(() => String)
+  @Matches(PHONE_REGEX, {
+    message: 'Phone number must be in E.164 format (e.g., +123456789)',
+  })
   phone?: string;
 }

@@ -10,7 +10,7 @@ import {
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 import { CreateUserDto } from './models/dto/req/create-user.dto';
-import { UpdateUserDto } from './models/dto/req/update-user.dto';
+import { UpdateUserReqDto } from './models/dto/req/update-user.req.dto';
 import { UserResDto } from './models/dto/res/user.res.dto';
 import { UserService } from './services/user.service';
 
@@ -41,7 +41,7 @@ export class UserController {
   @Patch(':id')
   public async update(
     @Param('id') id: string,
-    @Body() updateUserDto: UpdateUserDto,
+    @Body() updateUserDto: UpdateUserReqDto,
   ): Promise<string> {
     return await this.userService.update(+id, updateUserDto);
   }

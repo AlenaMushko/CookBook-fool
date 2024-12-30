@@ -1,18 +1,17 @@
-import { CONFIG } from "../config";
-
-export const API_URL = CONFIG.API_URL;
+import { URLS } from "@constants/url";
 
 export const API_ROUTES = {
   AUTH: {
-    SIGN_IN: "auth/sign-in",
-    SIGN_UP: "auth/sign-up",
-    REFRESH: "auth/refresh",
-    VALIDATE_TOKEN: "auth/validate-token",
-    FORGET_PASSWORD: "auth/forget-password",
+    SIGN_UP: `${URLS.AUTH}/sign-up`,
+    SIGN_IN: `${URLS.AUTH}/sign-in`,
+    LOGOUT: `${URLS.AUTH}/logout`,
+    REFRESH: `${URLS.AUTH}/refresh`,
+    // VALIDATE_TOKEN: "auth/validate-token",
+    FORGET_PASSWORD: `${URLS.AUTH}/forget-password`,
   },
   USER: {
-    GET_USER: "users/currentUser",
-    UPDATE: (id: string) => `users/${id}`,
+    GET_USER: (id: string) => `${URLS.USER}/${id}`,
+    UPDATE: (id: string) => `${URLS.USER}/${id}`,
   },
   DISH: {
     GET_ALL_BY_CATEGORY: (categoryId: string) =>

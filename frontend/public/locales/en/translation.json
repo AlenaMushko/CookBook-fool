@@ -4,6 +4,8 @@
   "profile": "Profile",
   "logout": "Logout",
   "forgot_password": "Forgot password?",
+  "home": "Home",
+  "dashboard": "Dashboard",
   "error": {
     "auth": {
       "password_format": "8+ chars, at least 1 lowercase, uppercase letter, digit.",

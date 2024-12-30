@@ -5,6 +5,7 @@ import {
   IValidateTokenRes,
 } from "@api/types/auth.types";
 import { createApi } from "@reduxjs/toolkit/query/react";
+import { showToast } from "@shared/index";
 import { useAppStore } from "@stores/zustandStore";
 
 import { baseQueryWithReauth } from "./baseQueryWithReauth";
@@ -17,21 +18,41 @@ export const authAPI = createApi({
       query: (userData) => ({
         url: API_ROUTES.AUTH.SIGN_UP,
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: userData,
       }),
       async onQueryStarted(_, { queryFulfilled }) {
-        const { data } = await queryFulfilled;
-        const { accessToken, refreshToken } = data.data;
-        useAppStore.getState().setTokens(accessToken, refreshToken);
+        const setLoading = useAppStore.getState().setLoading;
+
+        setLoading(true);
+        try {
+          const { data } = await queryFulfilled;
+          const { user, tokens } = data;
+          const { accessToken, refreshToken } = tokens;
+
+          useAppStore.getState().setTokens(accessToken, refreshToken);
+          useAppStore.getState().setUserId(user.id);
+
+          showToast("Реєстрація успішна!", "success");
+        } catch (error: any) {
+          showToast(error?.message || "Сталася помилка", "error");
+        } finally {
+          setLoading(false);
+        }
       },
     }),
-    validateToken: builder.query<IValidateTokenRes, void>({
-      query: () => ({
-        url: API_ROUTES.AUTH.VALIDATE_TOKEN,
-        method: "GET",
-      }),
-    }),
+    // validateToken: builder.query<IValidateTokenRes, void>({
+    //   query: () => ({
+    //     url: API_ROUTES.AUTH.VALIDATE_TOKEN,
+    //     method: "GET",
+    //   }),
+    // }),
   }),
 });
 
-export const { useSignUpMutation, useValidateTokenQuery } = authAPI;
+export const {
+  useSignUpMutation,
+  // useValidateTokenQuery
+} = authAPI;

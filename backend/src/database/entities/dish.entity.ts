@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 
-import { DishCategoryEnum } from './enums/dish-category.enum';
+import { DishCategoryEntity } from './dishCategory.entity';
 import { TableNameEnum } from './enums/table-name.enum';
 import { LikeEntity } from './like.entity';
 import { BaseEntity } from './models/base.entity';
@@ -26,12 +26,6 @@ export class DishEntity extends BaseEntity {
   @Column('text', { nullable: true })
   note: string;
 
-  @Column({
-    type: 'enum',
-    enum: DishCategoryEnum,
-  })
-  category: string;
-
   @Column('time', { nullable: true })
   preparationTime: number;
 
@@ -49,10 +43,15 @@ export class DishEntity extends BaseEntity {
 
   @Column('text')
   userId: string;
-
   @ManyToOne(() => UserEntity, (user) => user.dishes)
   @JoinColumn({ name: 'userId' })
   user?: UserEntity;
+
+  @Column('text')
+  categoryId: string;
+  @ManyToOne(() => DishCategoryEntity, (dishCategory) => dishCategory.id)
+  @JoinColumn({ name: 'categoryId' })
+  dishCategory?: DishCategoryEntity;
 
   @OneToMany(() => LikeEntity, (like) => like.dish)
   likes?: LikeEntity[];

@@ -1,18 +1,25 @@
+import { useSignUpMutation } from "@api/apis";
+import { ICreateUserReq } from "@apiTypes/auth.types";
 import {
   getInitialValuesSignUp,
   getValidationSchemaSignUp,
 } from "@components/SignUp/config";
 import { FIELDS_NAME_SIGN_UP } from "@components/SignUp/types";
 import { Button, FormControl, Typography } from "@mui/material";
+import { AppRoutes } from "@routing/appRoutes";
 import CustomInput from "@shared/CustomInput";
+import { getDeviceId } from "@utils/device";
 import { useFormik } from "formik";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 import theme from "../../../theme";
 
 const SignUp = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const [signUp] = useSignUpMutation();
 
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
@@ -21,7 +28,23 @@ const SignUp = () => {
     initialValues: getInitialValuesSignUp(),
     validationSchema: getValidationSchemaSignUp(t),
     onSubmit: async (values) => {
-      console.log("values", values);
+      const deviceId = getDeviceId();
+
+      const newUser: ICreateUserReq = {
+        firstName: values[FIELDS_NAME_SIGN_UP.FIRST_NAME],
+        lastName: values[FIELDS_NAME_SIGN_UP.LAST_NAME],
+        email: values[FIELDS_NAME_SIGN_UP.EMAIL],
+        password: values[FIELDS_NAME_SIGN_UP.PASSWORD],
+        deviceId,
+      };
+
+      try {
+        await signUp(newUser).unwrap();
+        formik.resetForm();
+        navigate(AppRoutes.DASHBOARD);
+      } catch (e: any) {
+        formik.resetForm();
+      }
     },
   });
 

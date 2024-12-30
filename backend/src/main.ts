@@ -44,6 +44,12 @@ async function bootstrap() {
     }),
   );
 
+  app.enableCors({
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  });
+
   const configService = app.get(ConfigService<Config>);
   const appConfig = configService.get<AppConfig>('app');
 

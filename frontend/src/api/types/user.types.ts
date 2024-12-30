@@ -3,13 +3,7 @@ export interface IUser {
   role: string;
   firstName: string;
   lastName: string;
-  isActive: USER_STATUS;
-  _id: string;
-}
-
-export enum USER_STATUS {
-  ACTIVE = "Active",
-  PENDING = "Pending",
+  id: string;
 }
 
 export interface IInviteUserRes {
@@ -19,8 +13,7 @@ export interface IInviteUserRes {
     firstName: string;
     lastName: string;
     password: string;
-    isActive: USER_STATUS;
-    _id: string;
+    id: string;
   };
   status: string;
 }
@@ -35,14 +28,12 @@ export interface IInviteUserReq {
   role: string;
   firstName: string;
   lastName: string;
-  isActive: USER_STATUS;
 }
 
 export interface IResendingInviteUserReq {
-  _id: string;
+  id: string;
   email: string;
   role: string;
   firstName: string;
   lastName: string;
-  isActive: USER_STATUS;
 }

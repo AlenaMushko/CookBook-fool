@@ -3,4 +3,5 @@ export enum TableNameEnum {
   DISHES = 'dishes',
   REFRESH_TOKEN = 'refresh-tokens',
   LIKES = 'likes',
+  DISH_CATEGORIES = 'dish-categories',
 }

@@ -2,6 +2,7 @@ export type Config = {
   app: AppConfig;
   postgres: PostgresConfig;
   redis: RedisConfig;
+  jwt: JWTConfig;
 };
 
 export type AppConfig = {

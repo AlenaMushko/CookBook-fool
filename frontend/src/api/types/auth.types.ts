@@ -1,27 +1,23 @@
-import { USER_STATUS } from "@api/types/user.types";
+import { IUser } from "@apiTypes/user.types";
 
 export interface ISignUpRes {
-  data: {
-    firstName: string;
-    lastName: string;
+  user: IUser;
+  tokens: {
     accessToken: string;
     refreshToken: string;
-    status: USER_STATUS;
   };
-  status: string;
 }
 
 export interface ICreateUserReq {
+  email: string;
   password: string;
   firstName: string;
   lastName: string;
-  status: USER_STATUS;
+  deviceId: string;
 }
 
 export interface IValidateTokenRes {
   data: {
-    role: string;
-    status: USER_STATUS;
     userId: string;
     email: string;
   };
