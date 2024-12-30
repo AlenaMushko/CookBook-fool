@@ -59,7 +59,7 @@ export class AuthService {
       select: { id: true, password: true },
     });
     if (!userEntity) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('Invalid email or password');
     }
 
     const isPasswordsMatch = await bcrypt.compare(
@@ -68,7 +68,7 @@ export class AuthService {
     );
 
     if (!isPasswordsMatch) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('Invalid email or password');
     }
 
     const user = await this.userRepository.findOneBy({ id: userEntity.id });

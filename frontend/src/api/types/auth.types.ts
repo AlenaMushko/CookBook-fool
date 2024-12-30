@@ -16,10 +16,8 @@ export interface ICreateUserReq {
   deviceId: string;
 }
 
-export interface IValidateTokenRes {
-  data: {
-    userId: string;
-    email: string;
-  };
-  status: string;
+export interface ISignInReq {
+  email: string;
+  password: string;
+  deviceId: string;
 }

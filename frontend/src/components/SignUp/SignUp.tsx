@@ -39,7 +39,7 @@ const SignUp = () => {
       };
 
       try {
-        await signUp(newUser).unwrap();
+        await signUp({ userData: newUser, t }).unwrap();
         formik.resetForm();
         navigate(AppRoutes.DASHBOARD);
       } catch (e: any) {
@@ -92,8 +92,8 @@ const SignUp = () => {
           }
           name={FIELDS_NAME_SIGN_UP.FIRST_NAME}
           type='text'
-          label='First Name'
-          placeholder='Enter your first name'
+          label={t("user.firstName")}
+          placeholder={t("user.enterFirstName")}
           helpText={
             formik.touched[FIELDS_NAME_SIGN_UP.FIRST_NAME]
               ? formik.errors[FIELDS_NAME_SIGN_UP.FIRST_NAME]
@@ -114,8 +114,8 @@ const SignUp = () => {
           }
           name={FIELDS_NAME_SIGN_UP.LAST_NAME}
           type='text'
-          label='Last Name'
-          placeholder='Enter your last name'
+          label={t("user.lastName")}
+          placeholder={t("user.enterLastName")}
           helpText={
             formik.touched[FIELDS_NAME_SIGN_UP.LAST_NAME]
               ? formik.errors[FIELDS_NAME_SIGN_UP.LAST_NAME]
@@ -136,8 +136,8 @@ const SignUp = () => {
           }
           name={FIELDS_NAME_SIGN_UP.EMAIL}
           type='email'
-          label='Email'
-          placeholder='Enter your email'
+          label={t("user.email")}
+          placeholder={t("user.enterEmail")}
           helpText={
             formik.touched[FIELDS_NAME_SIGN_UP.EMAIL]
               ? formik.errors[FIELDS_NAME_SIGN_UP.EMAIL]
@@ -158,8 +158,8 @@ const SignUp = () => {
           }
           name={FIELDS_NAME_SIGN_UP.PASSWORD}
           type='password'
-          label='Password'
-          placeholder='Enter your password'
+          label={t("user.password")}
+          placeholder={t("user.enterPassword")}
           helpText={
             formik.touched[FIELDS_NAME_SIGN_UP.PASSWORD]
               ? formik.errors[FIELDS_NAME_SIGN_UP.PASSWORD]
@@ -182,8 +182,8 @@ const SignUp = () => {
           }
           name={FIELDS_NAME_SIGN_UP.PASSWORD_CONFIRM}
           type='password'
-          label='Confirm Password'
-          placeholder='Confirm your password'
+          label={t("user.confirmPassword")}
+          placeholder={t("user.enterConfirmPassword")}
           helpText={
             formik.touched[FIELDS_NAME_SIGN_UP.PASSWORD_CONFIRM]
               ? formik.errors[FIELDS_NAME_SIGN_UP.PASSWORD_CONFIRM]

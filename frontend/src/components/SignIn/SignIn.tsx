@@ -1,19 +1,26 @@
+import { useSignInMutation } from "@api/apis";
 import {
   getInitialValuesSignIn,
   getValidationSchemaSignIn,
 } from "@components/SignIn/config";
 import { FIELDS_NAME_SIGN_IN } from "@components/SignIn/types";
+import { FIELDS_NAME_SIGN_UP } from "@components/SignUp/types";
 import { Button, FormControl, Link, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
+import { AppRoutes } from "@routing/appRoutes";
 import CustomInput from "@shared/CustomInput";
+import { getDeviceId } from "@utils/device";
 import { useFormik } from "formik";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 import theme from "../../../theme";
 
 const SignIn = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const [signIn] = useSignInMutation();
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -21,7 +28,16 @@ const SignIn = () => {
     initialValues: getInitialValuesSignIn(),
     validationSchema: getValidationSchemaSignIn(t),
     onSubmit: async (values) => {
-      console.log("values", values);
+      const deviceId = getDeviceId();
+      const email = values[FIELDS_NAME_SIGN_UP.EMAIL];
+      const password = values[FIELDS_NAME_SIGN_UP.PASSWORD];
+
+      try {
+        await signIn({ email, password, deviceId }).unwrap();
+        navigate(AppRoutes.DASHBOARD);
+      } catch (e: any) {
+        formik.resetForm();
+      }
     },
   });
 
@@ -70,8 +86,8 @@ const SignIn = () => {
           }
           name={FIELDS_NAME_SIGN_IN.EMAIL}
           type='email'
-          label='Email'
-          placeholder='Enter your email'
+          label={t("user.email")}
+          placeholder={t("user.enterEmail")}
           helpText={
             formik.touched[FIELDS_NAME_SIGN_IN.EMAIL]
               ? formik.errors[FIELDS_NAME_SIGN_IN.EMAIL]
@@ -92,8 +108,8 @@ const SignIn = () => {
           }
           name={FIELDS_NAME_SIGN_IN.PASSWORD}
           type='password'
-          label='Password'
-          placeholder='Enter your password'
+          label={t("user.password")}
+          placeholder={t("user.enterPassword")}
           helpText={
             formik.touched[FIELDS_NAME_SIGN_IN.PASSWORD]
               ? formik.errors[FIELDS_NAME_SIGN_IN.PASSWORD]

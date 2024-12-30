@@ -1,3 +1,4 @@
+import { useLogoutMutation } from "@api/apis";
 import MenuIcon from "@mui/icons-material/Menu";
 import { IconButton } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
@@ -11,7 +12,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import { AppRoutes } from "@routing/appRoutes";
-import { LanguageSwitcher } from "@shared/index";
+import { LanguageSwitcher, showToast } from "@shared/index";
 import { useAppStore } from "@stores/zustandStore";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
@@ -26,6 +27,17 @@ const Header: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const isActive = (route: string) => location.pathname === route;
+  const [logout] = useLogoutMutation();
+  const handleLogout = async () => {
+    try {
+      await logout().unwrap();
+      navigate(AppRoutes.HOME);
+    } catch (error) {
+      showToast(`Logout failed:${error}`, "error");
+    } finally {
+      handleCloseUserMenu();
+    }
+  };
 
   const { t } = useTranslation();
   const pagesAuth = [
@@ -41,7 +53,14 @@ const Header: React.FC = () => {
 
   const pages = isAuthenticated ? pagesUser : pagesAuth;
 
-  const settings = [t("profile"), t("logout")];
+  const handleUserInfo = () => {
+    handleCloseUserMenu();
+  };
+
+  const settings = [
+    { label: t("profile"), action: handleUserInfo },
+    { label: t("logout"), action: handleLogout },
+  ];
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
@@ -224,9 +243,9 @@ const Header: React.FC = () => {
                     onClose={handleCloseUserMenu}
                   >
                     {settings.map((setting) => (
-                      <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                      <MenuItem key={setting.label} onClick={setting.action}>
                         <Typography sx={{ textAlign: "center" }}>
-                          {setting}
+                          {setting.label}
                         </Typography>
                       </MenuItem>
                     ))}

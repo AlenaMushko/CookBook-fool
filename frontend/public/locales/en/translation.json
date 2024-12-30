@@ -1,4 +1,21 @@
 {
+  "user": {
+    "tryAgain": "Try again",
+    "firstName": "First Name",
+    "enterFirstName":"Enter your first name",
+    "lastName": "Last Name",
+    "enterLastName":"Enter your last name",
+    "email": "Email",
+    "enterEmail":"Enter your email",
+    "phone": "Phone",
+    "enterPhone":"Enter your phone",
+    "password": "Password",
+    "enterPassword":"Enter your password",
+    "confirmPassword": "Confirm Password",
+    "enterConfirmPassword":"Enter your confirm password",
+    "image": "Image",
+    "enterImage":"Enter your image"
+  },
   "login": "Log In",
   "signup": "Join Us",
   "profile": "Profile",

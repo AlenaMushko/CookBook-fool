@@ -1,7 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import { IsOptional, IsString, Length, Matches } from 'class-validator';
 
+import { TransformHelper } from '../../../../../common/helpers/transform.helper';
 import {
   EMAIL_REGEX,
   PASSWORD_REGEX,
@@ -12,14 +13,14 @@ export class BaseUserReqDto {
   @IsOptional()
   @IsString()
   @Length(3, 50)
-  // @Transform(TransformHelper.trim)
+  @Transform(({ value }) => TransformHelper.trim(value))
   @Type(() => String)
   firstName?: string;
 
   @IsOptional()
   @IsString()
   @Length(3, 50)
-  // @Transform(TransformHelper.trim)
+  @Transform(({ value }) => TransformHelper.trim(value))
   @Type(() => String)
   lastName?: string;
 

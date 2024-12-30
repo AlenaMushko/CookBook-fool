@@ -1,6 +1,6 @@
 export class TransformHelper {
-  public static trim(value) {
-    return value ? value.trim() : value;
+  public static trim(value: any): string | null {
+    return typeof value === 'string' ? value.trim() : value;
   }
 
   public static trimArray(value: string[]): string[] {

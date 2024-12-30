@@ -1,4 +1,21 @@
 {
+  "user": {
+    "tryAgain": "Спробуйте ще раз",
+    "firstName": "Ім'я",
+    "enterFirstName":"Введіть своє ім'я",
+    "lastName": "Прізвище",
+    "enterLastName": "Введіть своє прізвище",
+    "email": "Електронна пошта",
+    "enterEmail": "Введіть свою електронну пошту",
+    "phone": "Телефон",
+    "enterPhone": "Введіть свій телефон",
+    "password": "Пароль",
+    "enterPassword": "Введіть свій пароль",
+    "confirmPassword": "Підтвердіть пароль",
+    "enterConfirmPassword": "Підтвердіть свій пароль",
+    "image": "Зображення",
+    "enterImage": "Введіть своє зображення"
+  },
   "login": "Увійти",
   "signup": "Зареєструватися",
   "profile": "Профіль",
