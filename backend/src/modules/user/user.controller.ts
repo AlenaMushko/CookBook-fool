@@ -1,15 +1,6 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post,
-} from '@nestjs/common';
+import { Body, Controller, Get, Param, Put } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
-import { CreateUserDto } from './models/dto/req/create-user.dto';
 import { UpdateUserReqDto } from './models/dto/req/update-user.req.dto';
 import { UserResDto } from './models/dto/res/user.res.dto';
 import { UserService } from './services/user.service';
@@ -19,36 +10,18 @@ import { UserService } from './services/user.service';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post()
-  public async create(
-    @Body() createUserDto: CreateUserDto,
-  ): Promise<UserResDto> {
-    return await this.userService.create(createUserDto);
-  }
-
-  @Get()
-  public async findAll(): Promise<string> {
-    return await this.userService.findAll();
-  }
-
   @ApiBearerAuth()
   @Get(':id')
-  public async findOne(@Param('id') id: string): Promise<string> {
-    return await this.userService.findOne(+id);
+  public async findUserById(@Param('id') id: string): Promise<UserResDto> {
+    return await this.userService.findUserById(id);
   }
 
   @ApiBearerAuth()
-  @Patch(':id')
-  public async update(
+  @Put(':id')
+  public async updateUser(
     @Param('id') id: string,
     @Body() updateUserDto: UpdateUserReqDto,
-  ): Promise<string> {
-    return await this.userService.update(+id, updateUserDto);
-  }
-
-  @ApiBearerAuth()
-  @Delete(':id')
-  public async remove(@Param('id') id: string): Promise<string> {
-    return await this.userService.remove(+id);
+  ): Promise<UserResDto> {
+    return await this.userService.update(id, updateUserDto);
   }
 }

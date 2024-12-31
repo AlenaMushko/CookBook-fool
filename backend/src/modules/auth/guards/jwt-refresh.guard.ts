@@ -43,6 +43,7 @@ export class JwtRefreshGuard implements CanActivate {
     if (!user) {
       throw new UnauthorizedException();
     }
+
     request.user = { user, deviceId: payload.deviceId };
     return true;
   }

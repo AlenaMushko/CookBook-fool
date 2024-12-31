@@ -34,6 +34,13 @@ export class AuthController {
     return await this.authService.signIn(dto);
   }
 
+  @SkipAuth()
+  @ApiOperation({ summary: 'Forgot password' })
+  @Post('forgot-password')
+  public async forgotPassword(@Body() dto: { email: string }): Promise<void> {
+    return await this.authService.forgotPassword(dto);
+  }
+
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Logout' })
   @Post('logout')

@@ -1,44 +1,35 @@
-import { useSignInMutation } from "@api/apis";
-import {
-  getInitialValuesSignIn,
-  getValidationSchemaSignIn,
-} from "@components/SignIn/config";
+import { useForgotPasswordMutation } from "@api/apis";
 import { FIELDS_NAME_SIGN_IN } from "@components/SignIn/types";
-import { FIELDS_NAME_SIGN_UP } from "@components/SignUp/types";
-import { Button, FormControl, Link, Typography } from "@mui/material";
-import Box from "@mui/material/Box";
-import { AppRoutes } from "@routing/appRoutes";
+import { EMAIL_REGEX } from "@constants/regex";
+import { TEXT } from "@messages/validation";
+import { Box, Button, FormControl, Typography } from "@mui/material";
 import CustomInput from "@shared/CustomInput";
-import { useAppStore } from "@stores/zustandStore";
-import { getDeviceId } from "@utils/device";
+import { showToast } from "@shared/Toast";
 import { useFormik } from "formik";
-import React, { useState } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import * as Yup from "yup";
 
 import theme from "../../../theme";
 
-const SignIn = () => {
+const ForgotPassword = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
-  const [signIn] = useSignInMutation();
-
-  const [showPassword, setShowPassword] = useState(false);
+  const [forgotPassword] = useForgotPasswordMutation();
 
   const formik = useFormik({
-    initialValues: getInitialValuesSignIn(),
-    validationSchema: getValidationSchemaSignIn(t),
+    initialValues: { email: "" },
+    validationSchema: Yup.object().shape({
+      [FIELDS_NAME_SIGN_IN.EMAIL]: Yup.string()
+        .matches(EMAIL_REGEX, t(TEXT.ERROR.AUTH.INVALID_EMAIL))
+        .required(t(TEXT.ERROR.REQUIRED_FIELD)),
+    }),
     onSubmit: async (values) => {
-      const deviceId = getDeviceId();
-      const email = values[FIELDS_NAME_SIGN_UP.EMAIL];
-      const password = values[FIELDS_NAME_SIGN_UP.PASSWORD];
-
-      useAppStore.getState().setDeviceId(deviceId);
+      const email = values.email;
 
       try {
-        await signIn({ email, password, deviceId }).unwrap();
-        navigate(AppRoutes.DASHBOARD);
-      } catch (e: any) {
+        await forgotPassword({ email }).unwrap();
+      } finally {
+        showToast(t("user.checkEmail"), "info");
         formik.resetForm();
       }
     },
@@ -103,44 +94,6 @@ const SignIn = () => {
           isRequired={true}
         />
 
-        <CustomInput
-          formik={formik}
-          isInvalid={
-            formik.touched[FIELDS_NAME_SIGN_IN.PASSWORD] &&
-            Boolean(formik.errors[FIELDS_NAME_SIGN_IN.PASSWORD])
-          }
-          name={FIELDS_NAME_SIGN_IN.PASSWORD}
-          type='password'
-          label={t("user.password")}
-          placeholder={t("user.enterPassword")}
-          helpText={
-            formik.touched[FIELDS_NAME_SIGN_IN.PASSWORD]
-              ? formik.errors[FIELDS_NAME_SIGN_IN.PASSWORD]
-              : ""
-          }
-          value={formik.values[FIELDS_NAME_SIGN_IN.PASSWORD]}
-          onHandleChange={formik.handleChange}
-          onHandleBlur={formik.handleBlur}
-          password
-          setShow={() => setShowPassword(!showPassword)}
-          show={showPassword}
-          mb={16}
-          isRequired={true}
-        />
-
-        <Link
-          href={AppRoutes.FORGOT_PASSWORD}
-          underline='hover'
-          sx={{
-            display: "block",
-            textAlign: "right",
-            mb: 4,
-            color: theme.palette.secondary.contrastText,
-          }}
-        >
-          {t("forgot_password")}
-        </Link>
-
         <Button
           type='submit'
           variant='contained'
@@ -160,4 +113,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default ForgotPassword;

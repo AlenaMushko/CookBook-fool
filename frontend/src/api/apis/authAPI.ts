@@ -52,8 +52,8 @@ export const authAPI = createApi({
         try {
           await queryFulfilled;
           useAppStore.getState().clearAuth();
-        } catch (error: any) {
-          showToast(error?.message, "error");
+        } catch (e: any) {
+          showToast(`Logout failed`, "error");
         } finally {
           setLoading(false);
         }
@@ -93,8 +93,33 @@ export const authAPI = createApi({
         }
       },
     }),
+    forgotPassword: builder.mutation<void, { email: string }>({
+      query: (email) => ({
+        url: API_ROUTES.AUTH.FORGOT_PASSWORD,
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: { email },
+      }),
+      async onQueryStarted(_, { queryFulfilled }) {
+        const setLoading = useAppStore.getState().setLoading;
+
+        setLoading(true);
+        try {
+          await queryFulfilled;
+        } catch (e: any) {
+        } finally {
+          setLoading(false);
+        }
+      },
+    }),
   }),
 });
 
-export const { useSignUpMutation, useLogoutMutation, useSignInMutation } =
-  authAPI;
+export const {
+  useSignUpMutation,
+  useLogoutMutation,
+  useSignInMutation,
+  useForgotPasswordMutation,
+} = authAPI;

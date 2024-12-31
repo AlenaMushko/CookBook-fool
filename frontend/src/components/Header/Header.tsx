@@ -1,18 +1,16 @@
-import { useLogoutMutation } from "@api/apis";
+import AvatarMenu from "@components/Header/AvatarMenu";
 import MenuIcon from "@mui/icons-material/Menu";
 import { IconButton } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
-import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Toolbar from "@mui/material/Toolbar";
-import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import { AppRoutes } from "@routing/appRoutes";
-import { LanguageSwitcher, showToast } from "@shared/index";
+import { LanguageSwitcher } from "@shared/index";
 import { useAppStore } from "@stores/zustandStore";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
@@ -23,23 +21,13 @@ import logo from "/logo.svg";
 import theme from "../../../theme";
 
 const Header: React.FC = () => {
+  const { t } = useTranslation();
+
   const { isAuthenticated } = useAppStore();
   const navigate = useNavigate();
   const location = useLocation();
   const isActive = (route: string) => location.pathname === route;
-  const [logout] = useLogoutMutation();
-  const handleLogout = async () => {
-    try {
-      await logout().unwrap();
-      navigate(AppRoutes.HOME);
-    } catch (error) {
-      showToast(`Logout failed:${error}`, "error");
-    } finally {
-      handleCloseUserMenu();
-    }
-  };
 
-  const { t } = useTranslation();
   const pagesAuth = [
     { label: t("home"), route: AppRoutes.HOME },
     { label: t("login"), route: AppRoutes.SIGN_IN },
@@ -53,19 +41,7 @@ const Header: React.FC = () => {
 
   const pages = isAuthenticated ? pagesUser : pagesAuth;
 
-  const handleUserInfo = () => {
-    handleCloseUserMenu();
-  };
-
-  const settings = [
-    { label: t("profile"), action: handleUserInfo },
-    { label: t("logout"), action: handleLogout },
-  ];
-
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
-    null
-  );
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
 
@@ -74,13 +50,6 @@ const Header: React.FC = () => {
   };
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
-  };
-
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
-  };
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
   };
 
   const handleNavigate = (route: string) => {
@@ -216,42 +185,7 @@ const Header: React.FC = () => {
 
               <LanguageSwitcher />
 
-              {isAuthenticated ? (
-                <Box sx={{ flexGrow: 0, ml: "auto" }}>
-                  <Tooltip title='Open settings'>
-                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                      <Avatar
-                        alt='Remy Sharp'
-                        src='/static/images/avatar/2.jpg'
-                      />
-                    </IconButton>
-                  </Tooltip>
-                  <Menu
-                    sx={{ mt: "50px" }}
-                    id='menu-appbar'
-                    anchorEl={anchorElUser}
-                    anchorOrigin={{
-                      vertical: "top",
-                      horizontal: "right",
-                    }}
-                    keepMounted
-                    transformOrigin={{
-                      vertical: "top",
-                      horizontal: "right",
-                    }}
-                    open={Boolean(anchorElUser)}
-                    onClose={handleCloseUserMenu}
-                  >
-                    {settings.map((setting) => (
-                      <MenuItem key={setting.label} onClick={setting.action}>
-                        <Typography sx={{ textAlign: "center" }}>
-                          {setting.label}
-                        </Typography>
-                      </MenuItem>
-                    ))}
-                  </Menu>
-                </Box>
-              ) : null}
+              {isAuthenticated ? <AvatarMenu /> : null}
             </Box>
           </Toolbar>
         </Container>

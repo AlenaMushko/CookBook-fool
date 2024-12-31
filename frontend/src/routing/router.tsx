@@ -1,4 +1,5 @@
 import { Dashboard, MainLayout } from "@components/index";
+import ForgotPasswordPage from "@pages/ForgotPasswordPage";
 import {
   DishesPage,
   DishPage,
@@ -27,6 +28,10 @@ export const router = createBrowserRouter([
       {
         path: AppRoutes.SIGN_UP,
         element: <SignUpPage />,
+      },
+      {
+        path: AppRoutes.FORGOT_PASSWORD,
+        element: <ForgotPasswordPage />,
       },
       {
         path: AppRoutes.DASHBOARD,

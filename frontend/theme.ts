@@ -25,6 +25,7 @@ const theme = createTheme({
     colors: {
       btnBgHover: "#FF5722",
       bgLight: "#f9f9f9",
+      lightGreen: "#DCF7DD",
     },
     shadow: {
       orange: "0px 4px 20px rgba(255, 112, 67, 0.4)",
@@ -88,6 +89,7 @@ declare module "@mui/material/styles" {
     colors?: {
       btnBgHover?: string;
       bgLight?: string;
+      lightGreen?: string;
     };
     shadow?: {
       orange: string;
@@ -101,6 +103,7 @@ declare module "@mui/material/styles" {
     colors?: {
       btnBgHover?: string;
       bgLight?: string;
+      lightGreen?: string;
     };
     shadow?: {
       orange: string;

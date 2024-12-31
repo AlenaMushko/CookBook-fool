@@ -14,7 +14,8 @@
     "confirmPassword": "Confirm Password",
     "enterConfirmPassword":"Enter your confirm password",
     "image": "Image",
-    "enterImage":"Enter your image"
+    "enterImage":"Enter your image",
+    "checkEmail":"Check your email"
   },
   "login": "Log In",
   "signup": "Join Us",

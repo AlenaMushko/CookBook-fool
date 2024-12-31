@@ -1,39 +1,21 @@
 export interface IUser {
-  email: string;
-  role: string;
+  id: string;
   firstName: string;
   lastName: string;
-  id: string;
+  email: string;
+  image: string;
+  phone: string;
 }
 
-export interface IInviteUserRes {
-  data: {
-    email: string;
-    role: string;
-    firstName: string;
-    lastName: string;
-    password: string;
-    id: string;
-  };
-  status: string;
+export interface IUpdateUserReq {
+  firstName: string;
+  lastName: string;
+  password: string;
+  phone: string;
+  image: string;
 }
 
 export interface IUserRes {
   data: IUser[];
   status: string;
-}
-
-export interface IInviteUserReq {
-  email: string;
-  role: string;
-  firstName: string;
-  lastName: string;
-}
-
-export interface IResendingInviteUserReq {
-  id: string;
-  email: string;
-  role: string;
-  firstName: string;
-  lastName: string;
 }

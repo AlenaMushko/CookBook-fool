@@ -112,6 +112,19 @@ export class AuthService {
     ]);
   }
 
+  public async forgotPassword(dto: { email: string }): Promise<void> {
+    const user = await this.userRepository.findOne({
+      where: { email: dto.email },
+      select: { id: true },
+    });
+
+    if (!user) {
+      throw new UnauthorizedException();
+    }
+
+    // send email with reset password link
+  }
+
   public async refreshToken(userData: IUserData): Promise<TokenResponseDto> {
     const user = await this.userRepository.findOneBy({
       id: userData.userId,

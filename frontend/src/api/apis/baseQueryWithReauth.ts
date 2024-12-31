@@ -14,11 +14,12 @@ const mutex = new Mutex();
 
 export const baseQuery = fetchBaseQuery({
   baseUrl: CONFIG.API_URL,
-  prepareHeaders: (headers) => {
-    const { accessToken } = useAppStore.getState();
-    if (accessToken) {
-      headers.set("Authorization", `Bearer ${accessToken}`);
+  prepareHeaders: async (headers) => {
+    const { refreshToken } = useAppStore.getState();
+    if (refreshToken) {
+      headers.set("Authorization", `Bearer ${refreshToken}`);
     }
+
     return headers;
   },
 });
@@ -31,43 +32,62 @@ export const baseQueryWithReauth: BaseQueryFn<
   await mutex.waitForUnlock();
 
   let result = await baseQuery(args, api, extraOptions);
+  const { accessToken, refreshToken } = useAppStore.getState();
 
-  if (result.error?.status === 401) {
-    if (!mutex.isLocked()) {
-      const release = await mutex.acquire();
-      try {
-        const { refreshToken } = useAppStore.getState();
+  if (accessToken) {
+    const decoded = JSON.parse(atob(accessToken.split(".")[1]));
+    const currentTime = Math.floor(Date.now() / 1000);
 
-        if (refreshToken) {
-          const refreshResult = await baseQuery(
-            {
-              url: API_ROUTES.AUTH.REFRESH,
-              method: "POST",
-              body: { refreshToken },
-            },
-            api,
-            extraOptions
-          );
+    if (decoded.exp < currentTime && !refreshToken) {
+      useAppStore.getState().clearAuth();
+      return result;
+    }
 
-          if (refreshResult.data) {
-            const { accessToken, refreshToken } = (
-              refreshResult.data as SuccessRefreshTokenRes
-            ).data;
-            useAppStore.getState().setTokens(accessToken, refreshToken);
+    if (
+      result.error?.status === 401 ||
+      (decoded.exp < currentTime && refreshToken)
+    ) {
+      if (!mutex.isLocked()) {
+        const release = await mutex.acquire();
+        try {
+          const { refreshToken, userId, deviceId } = useAppStore.getState();
 
-            result = await baseQuery(args, api, extraOptions);
+          if (refreshToken) {
+            const dto = {
+              userId,
+              deviceId,
+            };
+
+            const refreshResult = await baseQuery(
+              {
+                url: API_ROUTES.AUTH.REFRESH,
+                method: "POST",
+                body: { dto },
+              },
+              api,
+              extraOptions
+            );
+
+            if (refreshResult.data) {
+              const { accessToken, refreshToken } = (
+                refreshResult.data as SuccessRefreshTokenRes
+              ).data;
+              useAppStore.getState().setTokens(accessToken, refreshToken);
+
+              result = await baseQuery(args, api, extraOptions);
+            } else {
+              useAppStore.getState().clearAuth();
+            }
           } else {
             useAppStore.getState().clearAuth();
           }
-        } else {
-          useAppStore.getState().clearAuth();
+        } finally {
+          release();
         }
-      } finally {
-        release();
+      } else {
+        await mutex.waitForUnlock();
+        result = await baseQuery(args, api, extraOptions);
       }
-    } else {
-      await mutex.waitForUnlock();
-      result = await baseQuery(args, api, extraOptions);
     }
   }
 

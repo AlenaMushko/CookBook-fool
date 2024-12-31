@@ -13,9 +13,11 @@ interface AppState {
   accessToken: string | null;
   refreshToken: string | null;
   userId: string | null;
+  deviceId: string | null;
   isAuthenticated: boolean;
   setTokens: (accessToken: string, refreshToken: string) => void;
   setUserId: (userId: string) => void;
+  setDeviceId: (deviceId: string) => void;
   clearAuth: () => void;
 
   language: "en" | "uk";
@@ -32,7 +34,13 @@ export const useAppStore = create<AppState>((set) => ({
   accessToken: LocalStorageUtils.getItem(LOCAL_STORAGE.ACCESS_TOKEN),
   refreshToken: LocalStorageUtils.getItem(LOCAL_STORAGE.REFRESH_TOKEN),
   userId: LocalStorageUtils.getItem(LOCAL_STORAGE.USER_ID),
+  deviceId: LocalStorageUtils.getItem(LOCAL_STORAGE.DEVICE_ID),
   isAuthenticated: !!LocalStorageUtils.getItem(LOCAL_STORAGE.ACCESS_TOKEN),
+
+  setDeviceId: (deviceId: string) => {
+    LocalStorageUtils.setItem(LOCAL_STORAGE.DEVICE_ID, deviceId);
+    set({ deviceId });
+  },
 
   setTokens: (accessToken, refreshToken) => {
     LocalStorageUtils.setItem(LOCAL_STORAGE.ACCESS_TOKEN, accessToken);

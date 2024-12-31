@@ -7,10 +7,10 @@ export const API_ROUTES = {
     LOGOUT: `${URLS.AUTH}/logout`,
     REFRESH: `${URLS.AUTH}/refresh`,
     // VALIDATE_TOKEN: "auth/validate-token",
-    FORGET_PASSWORD: `${URLS.AUTH}/forget-password`,
+    FORGOT_PASSWORD: `${URLS.AUTH}/forgot-password`,
   },
   USER: {
-    GET_USER: (id: string) => `${URLS.USER}/${id}`,
+    GET_USER_BY_ID: (id: string) => `${URLS.USER}/${id}`,
     UPDATE: (id: string) => `${URLS.USER}/${id}`,
   },
   DISH: {
