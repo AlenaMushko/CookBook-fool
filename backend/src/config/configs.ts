@@ -20,10 +20,10 @@ export default (): Config => ({
   jwt: {
     accessTokenSecret: process.env.AUTH_ACCESS_TOKEN_SECRET || 'access secret',
     accessTokenExpiration:
-      parseInt(process.env.AUTH_ACCESS_TOKEN_EXPIRATION) || 3600,
+      parseInt(process.env.JWT_ACCESS_TOKEN_EXPIRATION) || 3600,
     refreshTokenSecret:
       process.env.AUTH_REFRESH_TOKEN_SECRET || 'refresh secret',
     refreshTokenExpiration:
-      parseInt(process.env.AUTH_REFRESH_TOKEN_EXPIRATION) || 86400,
+      parseInt(process.env.JWT_REFRESH_TOKEN_EXPIRATION) || 86400,
   },
 });

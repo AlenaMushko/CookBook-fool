@@ -20,7 +20,8 @@ export class JwtRefreshGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
-    const refreshToken = request.get('Authorization')?.split('Bearer ')[1];
+    const refreshToken = request.body?.refreshToken;
+
     if (!refreshToken) {
       throw new UnauthorizedException();
     }

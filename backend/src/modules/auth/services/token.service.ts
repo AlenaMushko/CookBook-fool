@@ -40,7 +40,6 @@ export class TokenService {
   ): Promise<JwtPayload> {
     try {
       const secret = this.getSecret(type);
-
       return await this.jwtService.verifyAsync(token, { secret });
     } catch (e) {
       throw new UnauthorizedException();
