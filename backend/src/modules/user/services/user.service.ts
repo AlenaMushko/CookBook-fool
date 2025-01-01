@@ -3,6 +3,7 @@ import {
   Injectable,
   UnprocessableEntityException,
 } from '@nestjs/common';
+import * as bcrypt from 'bcryptjs';
 
 import { UserEntity } from '../../../database/entities/user.entity';
 import { UserRepository } from '../../repository/services/user.repository';
@@ -21,13 +22,19 @@ export class UserService {
 
   public async update(
     id: string,
-    updateUserDto: UpdateUserReqDto,
+    updateUserDto: Partial<UpdateUserReqDto>,
   ): Promise<UserResDto> {
     const user = await this.findByIdOrThrow(id);
+
+    if (!updateUserDto.password) {
+      throw new UnprocessableEntityException('Password is required');
+    }
+    const newPassword = await bcrypt.hash(updateUserDto.password, 10);
 
     const updatedUser = await this.userRepository.save({
       ...user,
       ...updateUserDto,
+      password: newPassword,
     });
 
     return UserMapper.toResDto(updatedUser);

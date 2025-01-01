@@ -14,13 +14,19 @@ export const authAPI = createApi({
       ISignUpRes,
       { userData: ICreateUserReq; t: (key: string) => string }
     >({
-      query: (userData) => ({
+      query: ({ userData }) => ({
         url: API_ROUTES.AUTH.SIGN_UP,
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: userData,
+        body: {
+          email: userData.email,
+          password: userData.password,
+          firstName: userData.firstName,
+          lastName: userData.lastName,
+          deviceId: userData.deviceId,
+        },
       }),
       async onQueryStarted({ t }, { queryFulfilled }) {
         const setLoading = useAppStore.getState().setLoading;

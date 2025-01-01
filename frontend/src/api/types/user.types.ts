@@ -10,9 +10,10 @@ export interface IUser {
 export interface IUpdateUserReq {
   firstName: string;
   lastName: string;
+  image: string | null;
+  phone: string | null;
   password: string;
-  phone: string;
-  image: string;
+  deviceId: string;
 }
 
 export interface IUserRes {

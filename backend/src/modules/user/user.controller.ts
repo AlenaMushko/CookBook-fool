@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Put } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 import { UpdateUserReqDto } from './models/dto/req/update-user.req.dto';
@@ -17,10 +17,10 @@ export class UserController {
   }
 
   @ApiBearerAuth()
-  @Put(':id')
+  @Patch(':id')
   public async updateUser(
     @Param('id') id: string,
-    @Body() updateUserDto: UpdateUserReqDto,
+    @Body() updateUserDto: Partial<UpdateUserReqDto>,
   ): Promise<UserResDto> {
     return await this.userService.update(id, updateUserDto);
   }

@@ -15,7 +15,8 @@
     "enterConfirmPassword":"Enter your confirm password",
     "image": "Image",
     "enterImage":"Enter your image",
-    "checkEmail":"Check your email"
+    "checkEmail":"Check your email",
+    "profileUpdated": "Profile updated successfully"
   },
   "login": "Log In",
   "signup": "Join Us",
@@ -24,6 +25,8 @@
   "forgot_password": "Forgot password?",
   "home": "Home",
   "dashboard": "Dashboard",
+  "update": "Update",
+  "goToProfile": "Go to profile",
   "error": {
     "auth": {
       "password_format": "8+ chars, at least 1 lowercase, uppercase letter, digit.",

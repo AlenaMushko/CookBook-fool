@@ -1,5 +1,5 @@
 import CloseIcon from "@mui/icons-material/Close";
-import { Box, Button, IconButton, Modal, Typography } from "@mui/material";
+import { Box, IconButton, Modal, Typography } from "@mui/material";
 import React from "react";
 
 interface CustomModalProps {
@@ -25,7 +25,7 @@ const CustomModal: React.FC<CustomModalProps> = ({
     >
       <Box
         sx={{
-          width: { xs: "90%", sm: 400, md: 600 },
+          width: { xs: "90%", sm: 600, md: 900 },
           bgcolor: "background.paper",
           borderRadius: 2,
           boxShadow: 24,
@@ -33,16 +33,16 @@ const CustomModal: React.FC<CustomModalProps> = ({
           position: "relative",
         }}
       >
-        {title && (
+        {title ? (
           <Typography
-            id='custom-modal-title'
-            variant='h6'
+            variant='h4'
             component='h2'
-            sx={{ mb: 2 }}
+            sx={{ mb: 2, textAlign: "center" }}
           >
             {title}
           </Typography>
-        )}
+        ) : null}
+
         <IconButton
           onClick={onClose}
           sx={{
@@ -54,11 +54,6 @@ const CustomModal: React.FC<CustomModalProps> = ({
           <CloseIcon />
         </IconButton>
         <Box id='custom-modal-description'>{children}</Box>
-        <Box sx={{ mt: 2, display: "flex", justifyContent: "flex-end" }}>
-          <Button onClick={onClose} variant='contained' color='primary'>
-            Close
-          </Button>
-        </Box>
       </Box>
     </Modal>
   );

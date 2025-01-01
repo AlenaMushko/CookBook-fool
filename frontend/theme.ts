@@ -8,6 +8,11 @@ const theme = createTheme({
       fontWeight: 600,
       color: "#050835",
     },
+    h4: {
+      fontFamily: "'Playfair Display', serif",
+      fontWeight: 500,
+      color: "#050835",
+    },
   },
   palette: {
     primary: {
