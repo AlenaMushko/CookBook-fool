@@ -1,5 +1,6 @@
 import { IUser } from "@apiTypes/user.types";
 import UserForm from "@components/ModalContent/User/UserForm";
+import CONFIG from "@config/config";
 import { Button } from "@mui/material";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
@@ -13,9 +14,10 @@ import theme from "../../../../theme";
 
 interface UserProps {
   userData: IUser;
+  refetchUser: () => void;
 }
 
-const User: React.FC<UserProps> = ({ userData }) => {
+const User: React.FC<UserProps> = ({ userData, refetchUser }) => {
   const { t } = useTranslation();
   const [isFormOpen, setIsFormOpen] = useState(false);
 
@@ -23,8 +25,16 @@ const User: React.FC<UserProps> = ({ userData }) => {
     setIsFormOpen(true);
   };
 
+  const avatar = userData?.image
+    ? `${CONFIG.AWS_S3_ENDPOINT}/${CONFIG.AWS_S3_BUCKET_NAME}/${userData?.image}`
+    : undefined;
+
   return isFormOpen ? (
-    <UserForm userData={userData} setIsFormOpen={setIsFormOpen} />
+    <UserForm
+      userData={userData}
+      setIsFormOpen={setIsFormOpen}
+      refetchUser={refetchUser}
+    />
   ) : (
     <>
       <Card>
@@ -32,7 +42,7 @@ const User: React.FC<UserProps> = ({ userData }) => {
           <CardMedia
             component='img'
             height='140'
-            image={userData?.image}
+            image={avatar}
             alt={`${userData?.lastName?.charAt(0)} ${userData?.firstName?.charAt(0)}`}
           />
         ) : null}

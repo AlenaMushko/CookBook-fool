@@ -50,6 +50,7 @@ export class UserService {
       'lastName',
       'email',
       'phone',
+      'image',
     ];
 
     if (includePassword) {
@@ -64,5 +65,9 @@ export class UserService {
       throw new UnprocessableEntityException();
     }
     return user;
+  }
+
+  public async findByImage(image: string): Promise<UserEntity> {
+    return await this.userRepository.findOne({ where: { image } });
   }
 }

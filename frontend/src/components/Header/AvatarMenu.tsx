@@ -1,5 +1,6 @@
 import { useLogoutMutation } from "@api/apis";
 import { useGetUserByIdQuery } from "@apis/userAPI";
+import CONFIG from "@config/config";
 import { Avatar, IconButton } from "@mui/material";
 import Box from "@mui/material/Box";
 import Menu from "@mui/material/Menu";
@@ -21,7 +22,7 @@ const AvatarMenu = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const userId = useAppStore((state) => state.userId);
-  const { data: userData } = useGetUserByIdQuery({
+  const { data: userData, refetch } = useGetUserByIdQuery({
     userId: userId ?? "",
   });
 
@@ -53,6 +54,11 @@ const AvatarMenu = () => {
     { label: t("profile"), action: handleUserInfo },
     { label: t("logout"), action: handleLogout },
   ];
+
+  const avatar = userData?.image
+    ? `${CONFIG.AWS_S3_ENDPOINT}/${CONFIG.AWS_S3_BUCKET_NAME}/${userData?.image}`
+    : undefined;
+
   return (
     <>
       <Box sx={{ flexGrow: 0, ml: "auto" }}>
@@ -63,7 +69,7 @@ const AvatarMenu = () => {
                 bgcolor: theme.palette.secondary.light,
               }}
               alt={`${userData?.lastName?.charAt(0)} ${userData?.firstName?.charAt(0)}`}
-              src={userData?.image}
+              src={avatar}
             >
               {userData?.image
                 ? null
@@ -102,7 +108,7 @@ const AvatarMenu = () => {
           onClose={() => setIsModalOpen(false)}
           title={t("profile")}
         >
-          <User userData={userData} />
+          <User userData={userData} refetchUser={refetch} />
         </CustomModal>
       ) : null}
     </>

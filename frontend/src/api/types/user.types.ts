@@ -12,7 +12,6 @@ export interface IUpdateUserReq {
   lastName: string;
   image: string | null;
   phone: string | null;
-  password: string;
   deviceId: string;
 }
 

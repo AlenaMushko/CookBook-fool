@@ -12,7 +12,7 @@ export const Toast: React.FC = () => {
   return (
     <Snackbar
       open={toast.open}
-      autoHideDuration={1500}
+      autoHideDuration={2000}
       onClose={handleClose}
       anchorOrigin={{ vertical: "top", horizontal: "right" }}
     >
