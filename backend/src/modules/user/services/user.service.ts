@@ -3,7 +3,6 @@ import {
   Injectable,
   UnprocessableEntityException,
 } from '@nestjs/common';
-import * as bcrypt from 'bcryptjs';
 
 import { UserEntity } from '../../../database/entities/user.entity';
 import { UserRepository } from '../../repository/services/user.repository';
@@ -24,17 +23,11 @@ export class UserService {
     id: string,
     updateUserDto: Partial<UpdateUserReqDto>,
   ): Promise<UserResDto> {
-    const user = await this.findByIdOrThrow(id);
-
-    if (!updateUserDto.password) {
-      throw new UnprocessableEntityException('Password is required');
-    }
-    const newPassword = await bcrypt.hash(updateUserDto.password, 10);
+    const user = await this.findByIdOrThrow(id, true);
 
     const updatedUser = await this.userRepository.save({
       ...user,
       ...updateUserDto,
-      password: newPassword,
     });
 
     return UserMapper.toResDto(updatedUser);
@@ -47,8 +40,26 @@ export class UserService {
     }
   }
 
-  public async findByIdOrThrow(id: string): Promise<UserEntity> {
-    const user = await this.userRepository.findOneBy({ id });
+  public async findByIdOrThrow(
+    id: string,
+    includePassword = false,
+  ): Promise<UserEntity> {
+    const selectFields: (keyof UserEntity)[] = [
+      'id',
+      'firstName',
+      'lastName',
+      'email',
+      'phone',
+    ];
+
+    if (includePassword) {
+      selectFields.push('password');
+    }
+    const user = await this.userRepository.findOne({
+      where: { id },
+      select: selectFields,
+    });
+
     if (!user) {
       throw new UnprocessableEntityException();
     }
