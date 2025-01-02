@@ -13,6 +13,10 @@ export const API_ROUTES = {
     GET_USER_BY_ID: (id: string) => `${URLS.USER}/${id}`,
     UPDATE: (id: string) => `${URLS.USER}/${id}`,
   },
+  FILE: {
+    UPLOAD: `${URLS.s3}/upload-file`,
+    DELETE: `${URLS.s3}/delete-file`,
+  },
   DISH: {
     GET_ALL_BY_CATEGORY: (categoryId: string) =>
       `dishes/category/${categoryId}`,

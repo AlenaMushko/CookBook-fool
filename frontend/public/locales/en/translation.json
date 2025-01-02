@@ -14,9 +14,15 @@
     "confirmPassword": "Confirm Password",
     "enterConfirmPassword":"Enter your confirm password",
     "image": "Image",
-    "enterImage":"Enter your image",
+    "enterImage":"Choose your image",
     "checkEmail":"Check your email",
     "profileUpdated": "Profile updated successfully"
+  },
+  "file": {
+    "uploadSuccess": "File uploaded successfully",
+    "uploadFail": "File upload failed, please try again",
+    "removeSuccess": "File removed successfully",
+    "removeFail": "File remove failed, please try again"
   },
   "login": "Log In",
   "signup": "Join Us",

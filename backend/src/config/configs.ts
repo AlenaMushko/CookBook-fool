@@ -26,4 +26,11 @@ export default (): Config => ({
     refreshTokenExpiration:
       parseInt(process.env.JWT_REFRESH_TOKEN_EXPIRATION) || 86400,
   },
+  aws: {
+    accessKeyId: process.env.AWS_S3_ACCESS_KEY,
+    secretAccessKey: process.env.AWS_S3_SECRET_KEY,
+    region: process.env.AWS_S3_REGION,
+    bucketName: process.env.AWS_S3_BUCKET_NAME,
+    endpoint: process.env.AWS_S3_ENDPOINT,
+  },
 });
