@@ -1,0 +1,39 @@
+{
+  "user": {
+    "tryAgain": "Try again",
+    "firstName": "First Name",
+    "enterFirstName":"Enter your first name",
+    "lastName": "Last Name",
+    "enterLastName":"Enter your last name",
+    "email": "Email",
+    "enterEmail":"Enter your email",
+    "phone": "Phone",
+    "enterPhone":"Enter your phone",
+    "password": "Password",
+    "enterPassword":"Enter your password",
+    "confirmPassword": "Confirm Password",
+    "enterConfirmPassword":"Enter your confirm password",
+    "image": "Image",
+    "enterImage":"Enter your image",
+    "checkEmail":"Check your email",
+    "profileUpdated": "Profile updated successfully"
+  },
+  "login": "Log In",
+  "signup": "Join Us",
+  "profile": "Profile",
+  "logout": "Logout",
+  "forgot_password": "Forgot password?",
+  "home": "Home",
+  "dashboard": "Dashboard",
+  "update": "Update",
+  "goToProfile": "Go to profile",
+  "error": {
+    "auth": {
+      "password_format": "8+ chars, at least 1 lowercase, uppercase letter, digit.",
+      "invalid_email": "Invalid email format, must include a valid TLD (e.g., .com, .org)",
+      "passwords_must_match": "Passwords must match"
+    },
+    "invalid_phone": "Phone number must be in a valid international format, e.g., +1(000)000-0000",
+    "required_field": "This field is required"
+  }
+}
