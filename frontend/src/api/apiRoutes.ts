@@ -18,11 +18,11 @@ export const API_ROUTES = {
     DELETE: `${URLS.s3}/delete-file`,
   },
   DISH: {
-    GET_ALL_BY_CATEGORY: (categoryId: string) =>
-      `dishes/category/${categoryId}`,
-    GET_BY_ID: (dishId: string) => `dishes/${dishId}`,
-    CREATE: "dishes",
-    UPDATE: (dishId: string) => `dishes/${dishId}`,
-    DELETE: (dishId: string) => `dishes/${dishId}`,
+    GET_DISH_CATEGORIES: `${URLS.DISH}/categories`,
+    GET_ALL: URLS.DISH,
+    GET_BY_ID: (dishId: string) => `${URLS.DISH}/${dishId}`,
+    CREATE: URLS.DISH,
+    UPDATE: (dishId: string) => `${URLS.DISH}/${dishId}`,
+    DELETE: (dishId: string) => `${URLS.DISH}/${dishId}`,
   },
 };

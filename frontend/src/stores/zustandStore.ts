@@ -28,6 +28,9 @@ interface AppState {
 
   isLoading: boolean;
   setLoading: (isLoading: boolean) => void;
+
+  dishCategory: string | null;
+  setDishCategory: (dishCategory: string | null) => void;
 }
 
 export const useAppStore = create<AppState>((set) => ({
@@ -81,4 +84,7 @@ export const useAppStore = create<AppState>((set) => ({
 
   isLoading: false,
   setLoading: (isLoading) => set({ isLoading }),
+
+  dishCategory: null,
+  setDishCategory: (dishCategory: string | null) => set({ dishCategory }),
 }));

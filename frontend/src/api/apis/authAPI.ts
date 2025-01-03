@@ -1,5 +1,5 @@
 import { API_ROUTES } from "@api/apiRoutes";
-import { ICreateUserReq, ISignUpRes } from "@api/types/auth.types";
+import { ICreateUserReq, ISignUpRes } from "@api/types";
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { showToast } from "@shared/index";
 import { useAppStore } from "@stores/zustandStore";

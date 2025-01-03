@@ -1,6 +1,6 @@
 import { API_ROUTES } from "@api/apiRoutes";
+import { IUpdateUserReq, IUser } from "@api/types";
 import { baseQueryWithReauth } from "@apis/baseQueryWithReauth";
-import { IUpdateUserReq, IUser } from "@apiTypes/user.types";
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { showToast } from "@shared/Toast";
 import { useAppStore } from "@stores/zustandStore";

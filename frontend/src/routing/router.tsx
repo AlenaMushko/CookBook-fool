@@ -42,7 +42,7 @@ export const router = createBrowserRouter([
         ),
         children: [
           { path: AppRoutes.DISHES_CATEGORY, element: <DishesPage /> },
-          { path: AppRoutes.DISH, element: <DishPage /> },
+          { path: `${AppRoutes.DISH}/:dishId`, element: <DishPage /> },
         ],
       },
       {

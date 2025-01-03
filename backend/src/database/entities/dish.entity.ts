@@ -49,10 +49,13 @@ export class DishEntity extends BaseEntity {
 
   @Column('text')
   categoryId: string;
-  @ManyToOne(() => DishCategoryEntity, (dishCategory) => dishCategory.id)
+  @ManyToOne(() => DishCategoryEntity, (dishCategory) => dishCategory.dishes)
   @JoinColumn({ name: 'categoryId' })
   dishCategory?: DishCategoryEntity;
 
   @OneToMany(() => LikeEntity, (like) => like.dish)
   likes?: LikeEntity[];
+
+  @Column({ type: 'int', select: false, nullable: true, default: 0 })
+  likesCount?: number;
 }

@@ -1,12 +1,23 @@
+import { useGetAllDishesQuery } from "@apis/dishAPI";
 import { AnimationWrap } from "@shared/index";
-import { useParams } from "react-router-dom";
+import { useAppStore } from "@stores/zustandStore";
 
 const DishesPage = () => {
-  const { id } = useParams<{ id: string }>();
+  const { dishCategory } = useAppStore();
+
+  const { data: dishes } = useGetAllDishesQuery({
+    limit: 3,
+    offset: 1,
+    categoryId: dishCategory || undefined,
+    // search: "tomato",
+  });
+
+  console.log("----dishCategory----", dishCategory);
+  console.log("---dishes---", dishes);
 
   return (
     <AnimationWrap>
-      <h1>Category ID: {id}</h1>
+      <h1>Category ID: {dishCategory}</h1>
     </AnimationWrap>
   );
 };
