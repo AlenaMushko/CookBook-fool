@@ -28,3 +28,11 @@ export interface IDishListRes {
     total: number;
   };
 }
+
+export interface IDishQuery {
+  limit?: number;
+  offset?: number;
+  categoryId?: string;
+  search?: string;
+  my?: boolean;
+}

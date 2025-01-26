@@ -1,8 +1,17 @@
 import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 800,
+      md: 1060,
+      lg: 1320,
+      xl: 1536,
+    },
+  },
   typography: {
-    fontFamily: "Quicksand, Arial, sans-serif",
+    fontFamily: "Montserrat, Arial, sans-serif",
     h3: {
       fontFamily: "'Playfair Display', serif",
       fontWeight: 600,
@@ -11,6 +20,14 @@ const theme = createTheme({
     h4: {
       fontFamily: "'Playfair Display', serif",
       fontWeight: 500,
+      color: "#2E3B55",
+    },
+    h2: {
+      fontFamily: "'Montserrat', serif",
+      fontWeight: 600,
+      fontSize: 20,
+      letterSpacing: 0.2,
+      lineHeight: 2.5,
       color: "#2E3B55",
     },
   },
@@ -103,7 +120,7 @@ const theme = createTheme({
               color: "#2E2E2E",
             },
             textTransform: "none",
-            fontFamily: "Quicksand, Arial, sans-serif",
+            fontFamily: "Montserrat, Arial, sans-serif",
             color: "#2E2E2E",
             fontWeight: "700",
             fontSize: "18px",

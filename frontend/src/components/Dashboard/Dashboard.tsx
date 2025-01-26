@@ -36,14 +36,15 @@ const Dashboard = () => {
     id: string;
     name: string;
   }) => {
-    if (subcategory.id !== dishCategory) {
-      setDishCategory(subcategory.id);
+    if (subcategory.id !== dishCategory?.id) {
+      setDishCategory(subcategory);
     }
   };
 
   const handleCategoryClick = (category: { id: string; name: string }) => {
-    if (category.id !== dishCategory) {
-      setDishCategory(category.id);
+    if (category.id !== dishCategory?.id) {
+      console.log("category", category);
+      setDishCategory(category);
     }
   };
 
@@ -140,7 +141,7 @@ const Dashboard = () => {
                     marginBottom: 0,
                     borderRadius: "8px",
                     transition: "all 0.3s ease",
-                    fontFamily: "Quicksand, Arial, sans-serif",
+                    fontFamily: "Montserrat, Arial, sans-serif",
                     fontWeight: "700",
                     fontSize: "18px",
                     color: theme.palette.colors?.greyText,

@@ -1,5 +1,5 @@
 import { API_ROUTES } from "@api/apiRoutes";
-import { DishCategoryList, IDishListRes } from "@api/types";
+import { DishCategoryList, IDishListRes, IDishQuery } from "@api/types";
 import { baseQueryWithReauth } from "@apis/baseQueryWithReauth";
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { showToast } from "@shared/Toast";
@@ -18,10 +18,7 @@ export const DishAPI = createApi({
       providesTags: ["list"],
     }),
 
-    getAllDishes: builder.query<
-      IDishListRes,
-      { limit?: number; offset?: number; categoryId?: string; search?: string }
-    >({
+    getAllDishes: builder.query<IDishListRes, IDishQuery>({
       query: ({ limit = 10, offset = 0, categoryId, search }) => {
         const params = new URLSearchParams();
 
@@ -37,7 +34,18 @@ export const DishAPI = createApi({
       },
       providesTags: ["list"],
     }),
+    deleteDish: builder.mutation<void, string>({
+      query: (id) => ({
+        url: API_ROUTES.DISH.DELETE(id),
+        method: "DELETE",
+      }),
+      invalidatesTags: ["list"],
+    }),
   }),
 });
 
-export const { useGetDishCategoriesQuery, useGetAllDishesQuery } = DishAPI;
+export const {
+  useGetDishCategoriesQuery,
+  useGetAllDishesQuery,
+  useDeleteDishMutation,
+} = DishAPI;

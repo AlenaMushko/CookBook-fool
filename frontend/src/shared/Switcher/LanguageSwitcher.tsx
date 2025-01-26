@@ -3,7 +3,7 @@ import Typography from "@mui/material/Typography";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
 
-import { LanguageSwitch } from "./LanguageSwitcherStyles";
+import { Switcher } from "./LanguageSwitcherStyles";
 
 const LanguageSwitcher = () => {
   const { i18n } = useTranslation();
@@ -22,7 +22,7 @@ const LanguageSwitcher = () => {
   return (
     <FormControlLabel
       control={
-        <LanguageSwitch
+        <Switcher
           checked={language === "UK"}
           onChange={handleChange}
           data-lang={language}

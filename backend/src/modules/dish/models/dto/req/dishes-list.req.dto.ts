@@ -1,5 +1,12 @@
 import { Type } from 'class-transformer';
-import { IsInt, IsOptional, IsString, Max, Min } from 'class-validator';
+import {
+  IsBoolean,
+  IsInt,
+  IsOptional,
+  IsString,
+  Max,
+  Min,
+} from 'class-validator';
 
 export class DishesListReqDto {
   @Type(() => Number)
@@ -22,4 +29,8 @@ export class DishesListReqDto {
   @IsOptional()
   @IsString()
   search?: string;
+
+  @IsOptional()
+  @IsBoolean()
+  my?: boolean;
 }

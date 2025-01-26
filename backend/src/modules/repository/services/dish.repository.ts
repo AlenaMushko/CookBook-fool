@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
 
 import { DishEntity } from '../../../database/entities/dish.entity';
+import { TableNameEnum } from '../../../database/entities/enums/table-name.enum';
 import { IUserData } from '../../auth/interfaces/user-data.interface';
 import { DishesListReqDto } from '../../dish/models/dto/req/dishes-list.req.dto';
 
@@ -15,36 +16,34 @@ export class DishRepository extends Repository<DishEntity> {
     query: DishesListReqDto,
     userData: IUserData,
   ): Promise<[DishEntity[], number]> {
-    const { limit = 10, offset = 0, categoryId, search } = query;
+    const { limit = 10, offset = 0, categoryId, search, my = true } = query;
 
-    const qb = this.createQueryBuilder('dish')
-      .leftJoinAndSelect('dish.dishCategory', 'dishCategory')
-      .leftJoinAndSelect('dish.user', 'user')
-      .loadRelationCountAndMap('dish.likesCount', 'dish.likes', 'like', (qb) =>
-        qb.andWhere('like.userId <> :myId', { myId: userData.userId }),
-      );
-    //     qb.leftJoin('dish.likes', 'like', 'like.userId <> :myId');
-    //     qb.setParameter('myId', userData.userId);
-    //
-    //     qb.addSelect('COUNT(like.id)', 'dish_likesCount');
-    //
-    //     dishes.forEach((dish: any) => {
-    //       dish.likesCount = Number(dish.dish_likesCount);
-    //       delete dish.dish_likesCount;
-    //     });
+    if (!categoryId && !search) {
+      return [[], 0];
+    }
+    console.log('userData', userData);
+    const tableName = TableNameEnum.DISHES;
+    const qb = this.createQueryBuilder(tableName);
+
     if (categoryId) {
-      qb.andWhere('dish.categoryId = :categoryId', { categoryId });
+      qb.andWhere(`${tableName}.categoryId = :categoryId`, { categoryId });
     }
 
     if (search) {
       qb.andWhere(
-        'LOWER(dish.title) LIKE :search OR LOWER(dish.subtitle) LIKE :search',
+        `(LOWER(${tableName}.title) ILIKE :search OR LOWER(${tableName}.subtitle) ILIKE :search)`,
+        { search: `%${search}%` },
       );
-      qb.setParameter('search', `%${search.toLowerCase()}%`);
     }
 
-    qb.orderBy('dish.created', 'DESC')
-      .addOrderBy('dish.id', 'ASC')
+    if (my) {
+      qb.andWhere(`${tableName}.userId = :userId`, { userId: userData.userId });
+    } else {
+      qb.andWhere(`${tableName}.isConfident = false`);
+    }
+
+    qb.orderBy(`${tableName}.created`, 'DESC')
+      .addOrderBy(`${tableName}.id`, 'ASC')
       .take(limit)
       .skip(offset);
 
