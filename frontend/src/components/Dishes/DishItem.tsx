@@ -11,19 +11,19 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import { AppRoutes } from "@routing/appRoutes";
 import ConfirmationPopup from "@shared/ConfirmationPopup";
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 interface DishItemProps {
-  dishCategory: { id: string; name: string };
   dish: IDish;
 }
 
-const DishItem: React.FC<DishItemProps> = ({ dishCategory, dish }) => {
-  // console.log("----dishCategory----", dishCategory);
-  // console.log("---dish---", dish);
+const DishItem: React.FC<DishItemProps> = ({ dish }) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const dishImg = dish?.image
     ? `${CONFIG.AWS_S3_ENDPOINT}/${CONFIG.AWS_S3_BUCKET_NAME}/${dish?.image}`
@@ -34,7 +34,7 @@ const DishItem: React.FC<DishItemProps> = ({ dishCategory, dish }) => {
   const [selectedDish, setSelectedDish] = React.useState<IDish | null>(null);
 
   const handleOpenDishPage = () => {
-    console.log("Open dish page", selectedDish);
+    navigate(`${AppRoutes.DISH}/${dish.id}`);
   };
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);

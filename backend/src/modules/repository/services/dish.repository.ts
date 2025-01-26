@@ -21,7 +21,7 @@ export class DishRepository extends Repository<DishEntity> {
     if (!categoryId && !search) {
       return [[], 0];
     }
-    console.log('userData', userData);
+
     const tableName = TableNameEnum.DISHES;
     const qb = this.createQueryBuilder(tableName);
 
@@ -53,7 +53,10 @@ export class DishRepository extends Repository<DishEntity> {
   }
 
   public async findDishById(id: string): Promise<DishEntity | null> {
-    return await this.findOne({ where: { id } });
+    return await this.findOne({
+      where: { id },
+      relations: ['dishCategory', 'user'],
+    });
   }
 
   public async deleteDishById(id: string): Promise<void> {

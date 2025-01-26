@@ -6,6 +6,7 @@ import CustomInput from "./CustomInput";
 import CustomModal from "./CustomModal";
 import ImageUpload from "./ImageUpload/ImageUpload";
 import Loader from "./Loader";
+import NoFoundData from "./NoFoundData";
 import CustomPhoneInput from "./PhoneInput";
 import UniversalSwitcher from "./Switcher/UniversalSwitcher";
 
@@ -20,5 +21,6 @@ export {
   ImageUpload,
   LanguageSwitcher,
   Loader,
+  NoFoundData,
   UniversalSwitcher,
 };

@@ -1,3 +1,5 @@
+import { UserResDto } from '../../../../user/models/dto/res/user.res.dto';
+
 export class IngredientResDto {
   ingredientName: string;
 
@@ -21,6 +23,14 @@ export class DishResDto {
   userId: string;
   categoryId: string;
   likesCount: number;
+}
+
+export class ParsedDishResDto extends DishResDto {
+  dishCategory: {
+    id: string;
+    name: string;
+  };
+  user: UserResDto;
 }
 
 export class DishListResDto {

@@ -3,7 +3,7 @@ import {
   DishCategoryList,
   IDishListRes,
   IDishQuery,
-  IUpdateUserReq,
+  IParsedDish,
 } from "@api/types";
 import { baseQueryWithReauth } from "@apis/baseQueryWithReauth";
 import { createApi } from "@reduxjs/toolkit/query/react";
@@ -20,7 +20,7 @@ export const DishAPI = createApi({
         url: API_ROUTES.DISH.GET_DISH_CATEGORIES,
         method: "GET",
       }),
-      providesTags: ["list"],
+      providesTags: ["list", "item"],
     }),
 
     getAllDishes: builder.query<IDishListRes, IDishQuery>({
@@ -63,6 +63,24 @@ export const DishAPI = createApi({
         }
       },
     }),
+
+    getDishById: builder.query<IParsedDish, { dishId: string }>({
+      query: ({ dishId }) => ({
+        url: API_ROUTES.DISH.GET_BY_ID(dishId),
+        method: "GET",
+      }),
+      providesTags: ["item"],
+      async onQueryStarted(_, { queryFulfilled }) {
+        const setLoading = useAppStore.getState().setLoading;
+
+        setLoading(true);
+        try {
+          await queryFulfilled;
+        } finally {
+          setLoading(false);
+        }
+      },
+    }),
   }),
 });
 
@@ -70,4 +88,5 @@ export const {
   useGetDishCategoriesQuery,
   useGetAllDishesQuery,
   useDeleteDishMutation,
+  useGetDishByIdQuery,
 } = DishAPI;

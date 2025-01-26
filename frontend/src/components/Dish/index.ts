@@ -1,6 +1,3 @@
-import AddEditDish from "./AddEditDish";
-import DishItem from "./DishItem";
-import DishList from "./DishList";
-import NoCategory from "./NoCategory";
+import DishContent from "./DishContent";
 
-export { AddEditDish, DishItem, DishList, NoCategory };
+export { DishContent };

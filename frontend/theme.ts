@@ -30,6 +30,20 @@ const theme = createTheme({
       lineHeight: 2.5,
       color: "#2E3B55",
     },
+    h5: {
+      fontFamily: "'Montserrat', serif",
+      fontWeight: 600,
+      fontSize: 22,
+      lineHeight: 1.2,
+      color: "#F57C00",
+    },
+    h6: {
+      fontFamily: "'Montserrat', serif",
+      fontWeight: 400,
+      fontSize: 16,
+      lineHeight: 1.2,
+      color: "#2E3B55",
+    },
   },
   palette: {
     primary: {
@@ -51,6 +65,8 @@ const theme = createTheme({
       lightBlue: "#BBDEFB",
       lightGray: "#BDBDBD",
       darkBlue: "#303F9F",
+      blueBtn: "#3C5075",
+      blueBtnHover: "#2E3B55",
       greenBtnBg: "#F3F9F3",
       greenBtnHoverBg: "#E0F0E0",
       greyText: "#2E2E2E",
@@ -147,6 +163,8 @@ declare module "@mui/material/styles" {
       greenBtnBg?: string;
       greenBtnHoverBg?: string;
       greyText?: string;
+      blueBtn?: string;
+      blueBtnHover?: string;
     };
     shadow?: {
       orange: string;
@@ -168,6 +186,8 @@ declare module "@mui/material/styles" {
       greenBtnBg?: string;
       greenBtnHoverBg?: string;
       greyText?: string;
+      blueBtn?: string;
+      blueBtnHover?: string;
     };
     shadow?: {
       orange: string;

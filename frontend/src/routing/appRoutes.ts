@@ -5,5 +5,5 @@ export const AppRoutes = {
   FORGOT_PASSWORD: "/forgot-password",
   DASHBOARD: "/dashboard",
   DISHES_CATEGORY: "/dashboard",
-  DISH: "/dashboard/dish/:id",
+  DISH: "/dashboard/dish",
 };

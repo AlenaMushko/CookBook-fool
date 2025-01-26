@@ -1,9 +1,11 @@
 import { Box, Card, CardContent, Typography } from "@mui/material";
-import { useTranslation } from "react-i18next";
+import React from "react";
 
-const NoCategory = () => {
-  const { t } = useTranslation();
+interface NoFoundDataProps {
+  text: string;
+}
 
+const NoFoundData: React.FC<NoFoundDataProps> = ({ text }) => {
   return (
     <Box
       sx={{
@@ -25,11 +27,12 @@ const NoCategory = () => {
             component='h2'
             sx={{ color: "text.secondary" }}
           >
-            {t("dish.noDishes")}
+            {text}
+            {/*{t("dish.noDishes")}*/}
           </Typography>
         </CardContent>
       </Card>
     </Box>
   );
 };
-export default NoCategory;
+export default NoFoundData;

@@ -7,7 +7,7 @@ import {
 import { IUserData } from '../../auth/interfaces/user-data.interface';
 import { DishRepository } from '../../repository/services/dish.repository';
 import { DishesListReqDto } from '../models/dto/req/dishes-list.req.dto';
-import { DishListResDto } from '../models/dto/res/dish.res.dto';
+import { DishListResDto, DishResDto } from '../models/dto/res/dish.res.dto';
 import { DishMapper } from './dish.mapper';
 
 @Injectable()
@@ -24,6 +24,15 @@ export class DishService {
     );
 
     return DishMapper.toListResponseDto(entities, total, query);
+  }
+
+  public async getDishById(id: string): Promise<DishResDto> {
+    const dish = await this.dishRepository.findDishById(id);
+    if (!dish) {
+      throw new NotFoundException('Dish not found');
+    }
+
+    return DishMapper.toParsedResponseDto(dish);
   }
 
   public async deleteDish(id: string, userData: IUserData): Promise<void> {

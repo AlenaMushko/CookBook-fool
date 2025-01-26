@@ -1,10 +1,8 @@
 import { IDish } from "@api/types";
-import DishItem from "@components/Dish/DishItem";
+import DishItem from "@components/Dishes/DishItem";
 import { Box, Card, CardContent, Pagination, Typography } from "@mui/material";
 import React from "react";
 import { useTranslation } from "react-i18next";
-
-import theme from "../../../theme";
 
 interface DishListProps {
   dishList: IDish[];
@@ -13,14 +11,12 @@ interface DishListProps {
     offset: number;
     total: number;
   } | null;
-  dishCategory: { id: string; name: string };
   onPageChange: (page: number) => void;
 }
 
 const DishList: React.FC<DishListProps> = ({
   dishList,
   dishMeta,
-  dishCategory,
   onPageChange,
 }) => {
   const { t } = useTranslation();
@@ -65,14 +61,6 @@ const DishList: React.FC<DishListProps> = ({
         </Card>
       ) : (
         <>
-          <Typography
-            variant='h2'
-            component='h2'
-            sx={{ color: theme.palette.primary.dark, fontSize: "2rem" }}
-          >
-            {dishCategory.name}
-          </Typography>
-
           <Box
             sx={{
               display: "grid",
@@ -87,7 +75,7 @@ const DishList: React.FC<DishListProps> = ({
             }}
           >
             {dishList.map((dish) => (
-              <DishItem key={dish.id} dishCategory={dishCategory} dish={dish} />
+              <DishItem key={dish.id} dish={dish} />
             ))}
           </Box>
           {total > limit && (
@@ -106,3 +94,18 @@ const DishList: React.FC<DishListProps> = ({
 };
 
 export default DishList;
+
+// categoryId
+// isConfident true
+// id
+
+// difficulty
+// preparationTime "01:00:00"
+// userId "91782f1c-7de8-4846-af79-b2030e3412d0"
+// image
+// title "Chocolate Cake"
+// subtitle "Rich Chocolate Cake"
+
+// ingredient (3) [{…}, {…}, {…}]
+// description
+// note "Perfect for celebrations."

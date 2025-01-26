@@ -4,7 +4,7 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { IUserData } from '../auth/interfaces/user-data.interface';
 import { DishesListReqDto } from './models/dto/req/dishes-list.req.dto';
-import { DishListResDto } from './models/dto/res/dish.res.dto';
+import { DishListResDto, DishResDto } from './models/dto/res/dish.res.dto';
 import { DishCategoryService } from './services/dish.category.service';
 import { DishService } from './services/dish.service';
 
@@ -28,6 +28,11 @@ export class DishController {
     @CurrentUser() userData: IUserData,
   ): Promise<DishListResDto> {
     return await this.dishService.getAllDishes(query, userData);
+  }
+
+  @Get(':id')
+  public async getDishById(@Param('id') id: string): Promise<DishResDto> {
+    return await this.dishService.getDishById(id);
   }
 
   @Delete(':id')

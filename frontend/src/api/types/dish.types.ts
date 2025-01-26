@@ -6,7 +6,7 @@ export interface IDish {
   image?: string;
   description: string;
   note?: string;
-  preparationTime?: number;
+  preparationTime?: string;
   difficulty?: number;
   ingredient: {
     ingredientName: string;
@@ -18,6 +18,19 @@ export interface IDish {
   userId: string;
   categoryId: string;
   likesCount: number;
+}
+
+export interface IParsedDish extends IDish {
+  user: {
+    id: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+  };
+  dishCategory: {
+    id: string;
+    name: string;
+  };
 }
 
 export interface IDishListRes {

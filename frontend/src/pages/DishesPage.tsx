@@ -1,15 +1,16 @@
 import { IDishQuery } from "@api/types";
 import { useGetAllDishesQuery } from "@apis/dishAPI";
-import Filter from "@components/Dish/Filter";
+import DishCategoryTitle from "@components/Dishes/DishCategoryTitle";
+import DishList from "@components/Dishes/DishList";
+import Filter from "@components/Dishes/Filter";
 import { Divider } from "@mui/material";
-import { AnimationWrap } from "@shared/index";
+import { AnimationWrap, NoFoundData } from "@shared/index";
 import { useAppStore } from "@stores/zustandStore";
-import { useState } from "react";
-
-import DishList from "../components/Dish/DishList";
-import NoCategory from "../components/Dish/NoCategory";
+import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const DishesPage = () => {
+  const { t } = useTranslation();
   const { dishCategory } = useAppStore();
 
   const limit = 5;
@@ -33,6 +34,10 @@ const DishesPage = () => {
     setOffset((page - 1) * limit);
   };
 
+  const handleCreateDish = () => {
+    console.log("Create dish");
+  };
+
   return (
     <AnimationWrap>
       <Filter
@@ -45,16 +50,21 @@ const DishesPage = () => {
           boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
         }}
       />
+      {dishCategory ? (
+        <DishCategoryTitle
+          categoryName={dishCategory?.name}
+          handleCreateDish={handleCreateDish}
+        />
+      ) : null}
 
       {dishCategory || searchDish ? (
         <DishList
           dishList={dishes?.data ?? []}
           dishMeta={dishes?.meta ?? null}
-          dishCategory={dishCategory ?? { id: "", name: "" }}
           onPageChange={onPageChange}
         />
       ) : (
-        <NoCategory />
+        <NoFoundData text={t("dish.noDishes")} />
       )}
     </AnimationWrap>
   );

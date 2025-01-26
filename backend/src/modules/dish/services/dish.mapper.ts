@@ -1,6 +1,10 @@
 import { DishEntity } from '../../../database/entities/dish.entity';
 import { DishesListReqDto } from '../models/dto/req/dishes-list.req.dto';
-import { DishListResDto, DishResDto } from '../models/dto/res/dish.res.dto';
+import {
+  DishListResDto,
+  DishResDto,
+  ParsedDishResDto,
+} from '../models/dto/res/dish.res.dto';
 
 export class DishMapper {
   public static toResponseDto(entity: DishEntity): DishResDto {
@@ -38,6 +42,22 @@ export class DishMapper {
         limit: query.limit,
         offset: query.offset,
         total,
+      },
+    };
+  }
+
+  public static toParsedResponseDto(entity: DishEntity): ParsedDishResDto {
+    return {
+      ...this.toResponseDto(entity),
+      user: {
+        id: entity.user?.id,
+        email: entity.user?.email,
+        firstName: entity.user?.firstName,
+        lastName: entity.user?.lastName,
+      },
+      dishCategory: {
+        id: entity.dishCategory?.id,
+        name: entity.dishCategory?.name,
       },
     };
   }
