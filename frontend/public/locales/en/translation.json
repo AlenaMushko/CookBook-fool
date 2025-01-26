@@ -39,6 +39,7 @@
     "image": "Image",
     "enterImage": "Choose image",
     "add": "Add",
+    "tryAgain": "Try again",
     "update": "Update",
     "delete": "Delete",
     "deleteDishMessage": "Are you sure you want to delete dish",

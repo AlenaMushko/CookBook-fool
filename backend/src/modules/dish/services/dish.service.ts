@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 
 import { IUserData } from '../../auth/interfaces/user-data.interface';
 import { DishRepository } from '../../repository/services/dish.repository';
@@ -20,5 +24,17 @@ export class DishService {
     );
 
     return DishMapper.toListResponseDto(entities, total, query);
+  }
+
+  public async deleteDish(id: string, userData: IUserData): Promise<void> {
+    const dish = await this.dishRepository.findDishById(id);
+    if (!dish) {
+      throw new NotFoundException('Dish not found');
+    }
+
+    if (dish.userId !== userData.userId) {
+      throw new ForbiddenException('You are not allowed to delete this dish');
+    }
+    await this.dishRepository.deleteDishById(id);
   }
 }

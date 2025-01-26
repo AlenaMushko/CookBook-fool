@@ -51,4 +51,12 @@ export class DishRepository extends Repository<DishEntity> {
 
     return [dishes, total];
   }
+
+  public async findDishById(id: string): Promise<DishEntity | null> {
+    return await this.findOne({ where: { id } });
+  }
+
+  public async deleteDishById(id: string): Promise<void> {
+    await this.delete({ id });
+  }
 }

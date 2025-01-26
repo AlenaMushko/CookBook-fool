@@ -3,12 +3,10 @@ import { useDeleteDishMutation } from "@apis/dishAPI";
 import CONFIG from "@config/config";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import {
-  Box,
   Card,
   CardActions,
   CardContent,
   CardMedia,
-  Popper,
   Rating,
   Tooltip,
   Typography,
@@ -23,8 +21,8 @@ interface DishItemProps {
 }
 
 const DishItem: React.FC<DishItemProps> = ({ dishCategory, dish }) => {
-  console.log("----dishCategory----", dishCategory);
-  console.log("---dish---", dish);
+  // console.log("----dishCategory----", dishCategory);
+  // console.log("---dish---", dish);
   const { t } = useTranslation();
 
   const dishImg = dish?.image
@@ -42,15 +40,18 @@ const DishItem: React.FC<DishItemProps> = ({ dishCategory, dish }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
-  const handleDeleteDish = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleDeleteDish = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
     e.stopPropagation();
     setAnchorEl(anchorEl ? null : e.currentTarget);
     setSelectedDish(dish);
   };
 
   const onDishDelete = async () => {
-    if (selectedDish?.id) await deleteDish(selectedDish?.id);
+    if (selectedDish?.id) await deleteDish({ id: selectedDish.id, t });
     setSelectedDish(null);
+    setAnchorEl(null);
   };
 
   return (

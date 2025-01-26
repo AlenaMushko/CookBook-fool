@@ -1,4 +1,4 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Delete, Get, Param, Query } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
@@ -28,5 +28,13 @@ export class DishController {
     @CurrentUser() userData: IUserData,
   ): Promise<DishListResDto> {
     return await this.dishService.getAllDishes(query, userData);
+  }
+
+  @Delete(':id')
+  public async deleteDish(
+    @Param('id') id: string,
+    @CurrentUser() userData: IUserData,
+  ): Promise<void> {
+    return await this.dishService.deleteDish(id, userData);
   }
 }

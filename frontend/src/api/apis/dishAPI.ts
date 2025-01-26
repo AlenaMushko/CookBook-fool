@@ -1,5 +1,10 @@
 import { API_ROUTES } from "@api/apiRoutes";
-import { DishCategoryList, IDishListRes, IDishQuery } from "@api/types";
+import {
+  DishCategoryList,
+  IDishListRes,
+  IDishQuery,
+  IUpdateUserReq,
+} from "@api/types";
 import { baseQueryWithReauth } from "@apis/baseQueryWithReauth";
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { showToast } from "@shared/Toast";
@@ -34,12 +39,29 @@ export const DishAPI = createApi({
       },
       providesTags: ["list"],
     }),
-    deleteDish: builder.mutation<void, string>({
-      query: (id) => ({
+
+    deleteDish: builder.mutation<
+      void,
+      { id: string; t: (key: string) => string }
+    >({
+      query: ({ id }) => ({
         url: API_ROUTES.DISH.DELETE(id),
         method: "DELETE",
       }),
       invalidatesTags: ["list"],
+      async onQueryStarted({ t }, { queryFulfilled }) {
+        const setLoading = useAppStore.getState().setLoading;
+
+        setLoading(true);
+        try {
+          await queryFulfilled;
+          showToast(t("dish.dishDeleted"), "success");
+        } catch (e: any) {
+          showToast(t("dish.tryAgain"), "error");
+        } finally {
+          setLoading(false);
+        }
+      },
     }),
   }),
 });
